@@ -1,0 +1,413 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="LaCabanaKNModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Actividad">
+          <Key>
+            <PropertyRef Name="IDActividad" />
+          </Key>
+          <Property Name="IDActividad" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Disponibilidad" Type="varchar" MaxLength="55" Nullable="false" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="Lugar" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="Precio" Type="float" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Empleado">
+          <Key>
+            <PropertyRef Name="Cedula" />
+          </Key>
+          <Property Name="Cedula" Type="int" Nullable="false" />
+          <Property Name="Contrasenna" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="55" Nullable="false" />
+          <Property Name="ApePaterno" Type="varchar" MaxLength="55" Nullable="false" />
+          <Property Name="ApeMaterno" Type="varchar" MaxLength="55" Nullable="false" />
+          <Property Name="HorarioHora" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="HorarioDia" Type="varchar" MaxLength="15" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ErrorLogs">
+          <Key>
+            <PropertyRef Name="IDError" />
+          </Key>
+          <Property Name="IDError" Type="int" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="Fecha" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Habitacion">
+          <Key>
+            <PropertyRef Name="IDHabitacion" />
+          </Key>
+          <Property Name="IDHabitacion" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="Precio" Type="float" Nullable="false" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="Disponibilidad" Type="varchar" MaxLength="55" Nullable="false" />
+          <Property Name="CantidadPersonas" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Reserva">
+          <Key>
+            <PropertyRef Name="IDReserva" />
+          </Key>
+          <Property Name="IDReserva" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FechaCreacion" Type="date" Nullable="false" />
+          <Property Name="FechaInicio" Type="date" Nullable="false" />
+          <Property Name="FechaFinal" Type="date" Nullable="false" />
+          <Property Name="PrecioTotal" Type="float" Nullable="false" />
+          <Property Name="PrecioActividades" Type="float" Nullable="false" />
+          <Property Name="Descuento" Type="float" Nullable="false" />
+          <Property Name="CedulaEmpleado" Type="int" Nullable="false" />
+          <Property Name="CedulaUsuario" Type="int" Nullable="false" />
+          <Property Name="IDActividad" Type="int" Nullable="false" />
+          <Property Name="IDHabitacion" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Usuario">
+          <Key>
+            <PropertyRef Name="Cedula" />
+          </Key>
+          <Property Name="Cedula" Type="int" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="55" Nullable="false" />
+          <Property Name="Contrasenna" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="ApePaterno" Type="varchar" MaxLength="55" Nullable="false" />
+          <Property Name="ApeMaterno" Type="varchar" MaxLength="55" Nullable="false" />
+          <Property Name="Telefono" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="Correo" Type="varchar" MaxLength="55" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__Reserva__CedulaE__2D27B809">
+          <End Role="Empleado" Type="Self.Empleado" Multiplicity="1" />
+          <End Role="Reserva" Type="Self.Reserva" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Empleado">
+              <PropertyRef Name="Cedula" />
+            </Principal>
+            <Dependent Role="Reserva">
+              <PropertyRef Name="CedulaEmpleado" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Reserva__CedulaU__2C3393D0">
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="1" />
+          <End Role="Reserva" Type="Self.Reserva" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="Cedula" />
+            </Principal>
+            <Dependent Role="Reserva">
+              <PropertyRef Name="CedulaUsuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Reserva__IDActiv__2E1BDC42">
+          <End Role="Actividad" Type="Self.Actividad" Multiplicity="1" />
+          <End Role="Reserva" Type="Self.Reserva" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Actividad">
+              <PropertyRef Name="IDActividad" />
+            </Principal>
+            <Dependent Role="Reserva">
+              <PropertyRef Name="IDActividad" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Reserva__IDHabit__2F10007B">
+          <End Role="Habitacion" Type="Self.Habitacion" Multiplicity="1" />
+          <End Role="Reserva" Type="Self.Reserva" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Habitacion">
+              <PropertyRef Name="IDHabitacion" />
+            </Principal>
+            <Dependent Role="Reserva">
+              <PropertyRef Name="IDHabitacion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="LaCabanaKNModelStoreContainer">
+          <EntitySet Name="Actividad" EntityType="Self.Actividad" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Empleado" EntityType="Self.Empleado" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ErrorLogs" EntityType="Self.ErrorLogs" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Habitacion" EntityType="Self.Habitacion" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Reserva" EntityType="Self.Reserva" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Usuario" EntityType="Self.Usuario" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Reserva__CedulaE__2D27B809" Association="Self.FK__Reserva__CedulaE__2D27B809">
+            <End Role="Empleado" EntitySet="Empleado" />
+            <End Role="Reserva" EntitySet="Reserva" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Reserva__CedulaU__2C3393D0" Association="Self.FK__Reserva__CedulaU__2C3393D0">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="Reserva" EntitySet="Reserva" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Reserva__IDActiv__2E1BDC42" Association="Self.FK__Reserva__IDActiv__2E1BDC42">
+            <End Role="Actividad" EntitySet="Actividad" />
+            <End Role="Reserva" EntitySet="Reserva" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Reserva__IDHabit__2F10007B" Association="Self.FK__Reserva__IDHabit__2F10007B">
+            <End Role="Habitacion" EntitySet="Habitacion" />
+            <End Role="Reserva" EntitySet="Reserva" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="LaCabanaKNModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Actividad">
+          <Key>
+            <PropertyRef Name="IDActividad" />
+          </Key>
+          <Property Name="IDActividad" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Disponibilidad" Type="String" MaxLength="55" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Descripcion" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Lugar" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Nombre" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Precio" Type="Double" Nullable="false" />
+          <NavigationProperty Name="Reserva" Relationship="Self.FK__Reserva__IDActiv__2E1BDC42" FromRole="Actividad" ToRole="Reserva" />
+        </EntityType>
+        <EntityType Name="Empleado">
+          <Key>
+            <PropertyRef Name="Cedula" />
+          </Key>
+          <Property Name="Cedula" Type="Int32" Nullable="false" />
+          <Property Name="Contrasenna" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Nombre" Type="String" MaxLength="55" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ApePaterno" Type="String" MaxLength="55" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ApeMaterno" Type="String" MaxLength="55" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="HorarioHora" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="HorarioDia" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Reserva" Relationship="Self.FK__Reserva__CedulaE__2D27B809" FromRole="Empleado" ToRole="Reserva" />
+        </EntityType>
+        <EntityType Name="ErrorLogs">
+          <Key>
+            <PropertyRef Name="IDError" />
+          </Key>
+          <Property Name="IDError" Type="Int32" Nullable="false" />
+          <Property Name="Nombre" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Descripcion" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityType Name="Habitacion">
+          <Key>
+            <PropertyRef Name="IDHabitacion" />
+          </Key>
+          <Property Name="IDHabitacion" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Precio" Type="Double" Nullable="false" />
+          <Property Name="Descripcion" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Disponibilidad" Type="String" MaxLength="55" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CantidadPersonas" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Reserva" Relationship="Self.FK__Reserva__IDHabit__2F10007B" FromRole="Habitacion" ToRole="Reserva" />
+        </EntityType>
+        <EntityType Name="Reserva">
+          <Key>
+            <PropertyRef Name="IDReserva" />
+          </Key>
+          <Property Name="IDReserva" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FechaCreacion" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="FechaInicio" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="FechaFinal" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="PrecioTotal" Type="Double" Nullable="false" />
+          <Property Name="PrecioActividades" Type="Double" Nullable="false" />
+          <Property Name="Descuento" Type="Double" Nullable="false" />
+          <Property Name="CedulaEmpleado" Type="Int32" Nullable="false" />
+          <Property Name="CedulaUsuario" Type="Int32" Nullable="false" />
+          <Property Name="IDActividad" Type="Int32" Nullable="false" />
+          <Property Name="IDHabitacion" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Actividad" Relationship="Self.FK__Reserva__IDActiv__2E1BDC42" FromRole="Reserva" ToRole="Actividad" />
+          <NavigationProperty Name="Empleado" Relationship="Self.FK__Reserva__CedulaE__2D27B809" FromRole="Reserva" ToRole="Empleado" />
+          <NavigationProperty Name="Habitacion" Relationship="Self.FK__Reserva__IDHabit__2F10007B" FromRole="Reserva" ToRole="Habitacion" />
+          <NavigationProperty Name="Usuario" Relationship="Self.FK__Reserva__CedulaU__2C3393D0" FromRole="Reserva" ToRole="Usuario" />
+        </EntityType>
+        <EntityType Name="Usuario">
+          <Key>
+            <PropertyRef Name="Cedula" />
+          </Key>
+          <Property Name="Cedula" Type="Int32" Nullable="false" />
+          <Property Name="Nombre" Type="String" MaxLength="55" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Contrasenna" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ApePaterno" Type="String" MaxLength="55" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ApeMaterno" Type="String" MaxLength="55" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Telefono" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Correo" Type="String" MaxLength="55" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Reserva" Relationship="Self.FK__Reserva__CedulaU__2C3393D0" FromRole="Usuario" ToRole="Reserva" />
+        </EntityType>
+        <Association Name="FK__Reserva__IDActiv__2E1BDC42">
+          <End Role="Actividad" Type="Self.Actividad" Multiplicity="1" />
+          <End Role="Reserva" Type="Self.Reserva" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Actividad">
+              <PropertyRef Name="IDActividad" />
+            </Principal>
+            <Dependent Role="Reserva">
+              <PropertyRef Name="IDActividad" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Reserva__CedulaE__2D27B809">
+          <End Role="Empleado" Type="Self.Empleado" Multiplicity="1" />
+          <End Role="Reserva" Type="Self.Reserva" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Empleado">
+              <PropertyRef Name="Cedula" />
+            </Principal>
+            <Dependent Role="Reserva">
+              <PropertyRef Name="CedulaEmpleado" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Reserva__IDHabit__2F10007B">
+          <End Role="Habitacion" Type="Self.Habitacion" Multiplicity="1" />
+          <End Role="Reserva" Type="Self.Reserva" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Habitacion">
+              <PropertyRef Name="IDHabitacion" />
+            </Principal>
+            <Dependent Role="Reserva">
+              <PropertyRef Name="IDHabitacion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Reserva__CedulaU__2C3393D0">
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="1" />
+          <End Role="Reserva" Type="Self.Reserva" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="Cedula" />
+            </Principal>
+            <Dependent Role="Reserva">
+              <PropertyRef Name="CedulaUsuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="LaCabanaKNEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Actividad" EntityType="Self.Actividad" />
+          <EntitySet Name="Empleado" EntityType="Self.Empleado" />
+          <EntitySet Name="ErrorLogs" EntityType="Self.ErrorLogs" />
+          <EntitySet Name="Habitacion" EntityType="Self.Habitacion" />
+          <EntitySet Name="Reserva" EntityType="Self.Reserva" />
+          <EntitySet Name="Usuario" EntityType="Self.Usuario" />
+          <AssociationSet Name="FK__Reserva__IDActiv__2E1BDC42" Association="Self.FK__Reserva__IDActiv__2E1BDC42">
+            <End Role="Actividad" EntitySet="Actividad" />
+            <End Role="Reserva" EntitySet="Reserva" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Reserva__CedulaE__2D27B809" Association="Self.FK__Reserva__CedulaE__2D27B809">
+            <End Role="Empleado" EntitySet="Empleado" />
+            <End Role="Reserva" EntitySet="Reserva" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Reserva__IDHabit__2F10007B" Association="Self.FK__Reserva__IDHabit__2F10007B">
+            <End Role="Habitacion" EntitySet="Habitacion" />
+            <End Role="Reserva" EntitySet="Reserva" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Reserva__CedulaU__2C3393D0" Association="Self.FK__Reserva__CedulaU__2C3393D0">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="Reserva" EntitySet="Reserva" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="LaCabanaKNModelStoreContainer" CdmEntityContainer="LaCabanaKNEntities">
+          <EntitySetMapping Name="Actividad">
+            <EntityTypeMapping TypeName="LaCabanaKNModel.Actividad">
+              <MappingFragment StoreEntitySet="Actividad">
+                <ScalarProperty Name="IDActividad" ColumnName="IDActividad" />
+                <ScalarProperty Name="Disponibilidad" ColumnName="Disponibilidad" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="Lugar" ColumnName="Lugar" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Precio" ColumnName="Precio" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Empleado">
+            <EntityTypeMapping TypeName="LaCabanaKNModel.Empleado">
+              <MappingFragment StoreEntitySet="Empleado">
+                <ScalarProperty Name="Cedula" ColumnName="Cedula" />
+                <ScalarProperty Name="Contrasenna" ColumnName="Contrasenna" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="ApePaterno" ColumnName="ApePaterno" />
+                <ScalarProperty Name="ApeMaterno" ColumnName="ApeMaterno" />
+                <ScalarProperty Name="HorarioHora" ColumnName="HorarioHora" />
+                <ScalarProperty Name="HorarioDia" ColumnName="HorarioDia" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ErrorLogs">
+            <EntityTypeMapping TypeName="LaCabanaKNModel.ErrorLogs">
+              <MappingFragment StoreEntitySet="ErrorLogs">
+                <ScalarProperty Name="IDError" ColumnName="IDError" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Habitacion">
+            <EntityTypeMapping TypeName="LaCabanaKNModel.Habitacion">
+              <MappingFragment StoreEntitySet="Habitacion">
+                <ScalarProperty Name="IDHabitacion" ColumnName="IDHabitacion" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Precio" ColumnName="Precio" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="Disponibilidad" ColumnName="Disponibilidad" />
+                <ScalarProperty Name="CantidadPersonas" ColumnName="CantidadPersonas" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Reserva">
+            <EntityTypeMapping TypeName="LaCabanaKNModel.Reserva">
+              <MappingFragment StoreEntitySet="Reserva">
+                <ScalarProperty Name="IDReserva" ColumnName="IDReserva" />
+                <ScalarProperty Name="FechaCreacion" ColumnName="FechaCreacion" />
+                <ScalarProperty Name="FechaInicio" ColumnName="FechaInicio" />
+                <ScalarProperty Name="FechaFinal" ColumnName="FechaFinal" />
+                <ScalarProperty Name="PrecioTotal" ColumnName="PrecioTotal" />
+                <ScalarProperty Name="PrecioActividades" ColumnName="PrecioActividades" />
+                <ScalarProperty Name="Descuento" ColumnName="Descuento" />
+                <ScalarProperty Name="CedulaEmpleado" ColumnName="CedulaEmpleado" />
+                <ScalarProperty Name="CedulaUsuario" ColumnName="CedulaUsuario" />
+                <ScalarProperty Name="IDActividad" ColumnName="IDActividad" />
+                <ScalarProperty Name="IDHabitacion" ColumnName="IDHabitacion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Usuario">
+            <EntityTypeMapping TypeName="LaCabanaKNModel.Usuario">
+              <MappingFragment StoreEntitySet="Usuario">
+                <ScalarProperty Name="Cedula" ColumnName="Cedula" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Contrasenna" ColumnName="Contrasenna" />
+                <ScalarProperty Name="ApePaterno" ColumnName="ApePaterno" />
+                <ScalarProperty Name="ApeMaterno" ColumnName="ApeMaterno" />
+                <ScalarProperty Name="Telefono" ColumnName="Telefono" />
+                <ScalarProperty Name="Correo" ColumnName="Correo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
