@@ -1,41 +1,74 @@
 ﻿<!DOCTYPE html>
+
 <html>
 <head>
-    <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
-    <title>@ViewBag.Title - My ASP.NET Application</title>
-    @Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/modernizr")
+    <title>@ViewBag.Title</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - LaCabana</title>
+    <link rel="stylesheet" href="~/wwwroot/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/wwwroot/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/wwwroot/LaCabana.styles.css" asp-append-version="true" />
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse" title="more options">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home", new { area = "" }, null)</li>
-                    <li>@Html.ActionLink("API", "Index", "Help", new { area = "" }, null)</li>
-                </ul>
+    <header>
+        <!-- Navbar Start -->
+        <div class="container-fluid position-relative nav-bar p-0">
+            <div class="container-lg position-relative p-0 px-lg-3" style="z-index: 9;">
+                <nav class="navbar navbar-expand-lg bg-light navbar-light shadow-lg py-3 py-lg-0 pl-3 pl-lg-5">
+                    <a href="" class="navbar-brand">
+                        <h1 class="m-0 text-primary"><span class="text-dark">La Cabaña</span></h1>
+                    </a>
+                    <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse justify-content-between px-3" id="navbarCollapse">
+                        <div class="navbar-nav ml-auto py-0">
+                            <a href="index.html" class="nav-item nav-link active">Inicio</a>
+                            <a href="#" class="nav-item nav-link">Habitaciones</a>
+                            <a href="#" class="nav-item nav-link">Actividades</a>
+                            <a href="#" class="nav-item nav-link">Paquetes</a>
+                            <a href="contact.html" class="nav-item nav-link">Contacto</a>
+                        </div>
+                    </div>
+                </nav>
             </div>
         </div>
-    </div>
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
-        </footer>
+        <!-- Navbar End -->
+        @*<nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+                <div class="container-fluid">
+                    <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">LaCabana</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                            aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                        <ul class="navbar-nav flex-grow-1">
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>*@
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
     </div>
 
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
-    @RenderSection("scripts", required: false)
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2022 - LaCabana - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+    <script src="~/wwwroot/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/wwwroot/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/wwwroot/js/site.js" asp-append-version="true"></script>
 </body>
 </html>

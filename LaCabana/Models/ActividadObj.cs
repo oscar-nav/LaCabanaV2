@@ -10,7 +10,7 @@ namespace LaCabana.Models
         public int IDActividad { get; set; }
         public string Nombre { get; set; }
         public string Descripcion { get; set; }
-        public bool Disponibilidad { get; set; }
+        public string Disponibilidad { get; set; }
         public string Lugar { get; set; }
         public float Precio { get; set; }
 
