@@ -59,9 +59,9 @@
           <Property Name="PrecioTotal" Type="float" Nullable="false" />
           <Property Name="PrecioActividades" Type="float" Nullable="false" />
           <Property Name="Descuento" Type="float" Nullable="false" />
-          <Property Name="CedulaEmpleado" Type="int" Nullable="false" />
+          <Property Name="CedulaEmpleado" Type="int" />
           <Property Name="CedulaUsuario" Type="int" Nullable="false" />
-          <Property Name="IDActividad" Type="int" Nullable="false" />
+          <Property Name="IDActividad" Type="int" />
           <Property Name="IDHabitacion" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Usuario">
@@ -77,7 +77,7 @@
           <Property Name="Correo" Type="varchar" MaxLength="55" Nullable="false" />
         </EntityType>
         <Association Name="FK__Reserva__CedulaE__2D27B809">
-          <End Role="Empleado" Type="Self.Empleado" Multiplicity="1" />
+          <End Role="Empleado" Type="Self.Empleado" Multiplicity="0..1" />
           <End Role="Reserva" Type="Self.Reserva" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Empleado">
@@ -101,7 +101,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK__Reserva__IDActiv__2E1BDC42">
-          <End Role="Actividad" Type="Self.Actividad" Multiplicity="1" />
+          <End Role="Actividad" Type="Self.Actividad" Multiplicity="0..1" />
           <End Role="Reserva" Type="Self.Reserva" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Actividad">
@@ -210,9 +210,9 @@
           <Property Name="PrecioTotal" Type="Double" Nullable="false" />
           <Property Name="PrecioActividades" Type="Double" Nullable="false" />
           <Property Name="Descuento" Type="Double" Nullable="false" />
-          <Property Name="CedulaEmpleado" Type="Int32" Nullable="false" />
+          <Property Name="CedulaEmpleado" Type="Int32" />
           <Property Name="CedulaUsuario" Type="Int32" Nullable="false" />
-          <Property Name="IDActividad" Type="Int32" Nullable="false" />
+          <Property Name="IDActividad" Type="Int32" />
           <Property Name="IDHabitacion" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Actividad" Relationship="Self.FK__Reserva__IDActiv__2E1BDC42" FromRole="Reserva" ToRole="Actividad" />
           <NavigationProperty Name="Empleado" Relationship="Self.FK__Reserva__CedulaE__2D27B809" FromRole="Reserva" ToRole="Empleado" />
@@ -233,7 +233,7 @@
           <NavigationProperty Name="Reserva" Relationship="Self.FK__Reserva__CedulaU__2C3393D0" FromRole="Usuario" ToRole="Reserva" />
         </EntityType>
         <Association Name="FK__Reserva__IDActiv__2E1BDC42">
-          <End Role="Actividad" Type="Self.Actividad" Multiplicity="1" />
+          <End Role="Actividad" Type="Self.Actividad" Multiplicity="0..1" />
           <End Role="Reserva" Type="Self.Reserva" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Actividad">
@@ -245,7 +245,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK__Reserva__CedulaE__2D27B809">
-          <End Role="Empleado" Type="Self.Empleado" Multiplicity="1" />
+          <End Role="Empleado" Type="Self.Empleado" Multiplicity="0..1" />
           <End Role="Reserva" Type="Self.Reserva" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Empleado">

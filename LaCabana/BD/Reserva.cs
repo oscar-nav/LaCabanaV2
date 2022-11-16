@@ -21,9 +21,9 @@ namespace LaCabana.BD
         public double PrecioTotal { get; set; }
         public double PrecioActividades { get; set; }
         public double Descuento { get; set; }
-        public int CedulaEmpleado { get; set; }
+        public Nullable<int> CedulaEmpleado { get; set; }
         public int CedulaUsuario { get; set; }
-        public int IDActividad { get; set; }
+        public Nullable<int> IDActividad { get; set; }
         public int IDHabitacion { get; set; }
     
         public virtual Actividad Actividad { get; set; }
