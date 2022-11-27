@@ -241,6 +241,7 @@
     </Compile>
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ReservaController.cs" />
+    <Compile Include="Controllers\EmpleadoController.cs" />
     <Compile Include="Controllers\UsuarioController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -252,6 +253,7 @@
     <Compile Include="Models\HabitacionObj.cs" />
     <Compile Include="Models\ReservaObj.cs" />
     <Compile Include="Models\ReservaModel.cs" />
+    <Compile Include="Models\EmpleadoModel.cs" />
     <Compile Include="Models\UsuarioModel.cs" />
     <Compile Include="Models\UsuarioObj.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

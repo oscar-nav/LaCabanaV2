@@ -12,7 +12,7 @@ namespace LaCabana.Models
         public string Contrasenna { get; set; }
         public string ApePaterno { get; set; }
         public string ApeMaterno { get; set; }
-        public string HorarioDia { get; set;
+        public string HorarioDia { get; set; }
         public string HorarioHora { get; set; }
     }
 
