@@ -1,0 +1,109 @@
+﻿@*@model IEnumerable<LaCabana_Front.Models.HabitacionObj> *@
+
+@{
+    ViewData["Title"] = "Habitaciones";
+}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="Free HTML Templates" name="keywords">
+    <meta content="Free HTML Templates" name="description">
+    <!-- Favicon -->
+    <link href="img/favicon.ico" rel="icon">
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <!-- Libraries Stylesheet -->
+    <link href="~/wwwroot/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+    <link href="~/wwwroot/lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="~/wwwroot/css/style.css" rel="stylesheet">
+</head>
+
+<body>
+    <!-- Carousel Start -->
+
+    <br />
+    <div class="card">
+        <div class="row">
+            <div class="col-12">
+                <div class="card-header">
+                    <h3 class="card-title">Table</h3>
+                </div>
+                <div class="card-body">
+
+                    <table id="tblDatosHabitacion" class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <!-- CREAR SEGUN CAMPOS DE LA HABITACION -->
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Correo)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.NombreCompleto)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.TipoUsuario)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Estado)
+                                </th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Correo)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.NombreCompleto)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.descripcionTipoUsuario)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Estado)
+                                    </td>
+                                    <td>
+
+                                        @if (Session["consecutivo"].ToString() != item.ConsecutivoUsuario.ToString())
+                                        {
+                                            @Html.ActionLink("Actualizar", "ActualizarUsuario", "Usuarios", new { id = item.ConsecutivoUsuario }, new { @class = "btn btn-primary" })
+                                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-book-id="@item.ConsecutivoUsuario">
+                                                Cambiar Estado
+                                            </button>
+                                        }
+                                        else
+                                        {
+                                            <input type="button" class="btn btn-secondary disabled" value="Actualizar" style="cursor:not-allowed">
+                                            <input type="button" class="btn btn-secondary disabled" value="Cambiar Estado" style="cursor:not-allowed">
+                                        }
+
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+    <div class="p-3" style="max-width: 900px;">
+        <a href="../Views/Reservas/crear.html" class="btn btn-primary py-md-3 px-md-5 mt-2">¡Reservar!</a>
+    </div>
+</body>
+
+</html>
