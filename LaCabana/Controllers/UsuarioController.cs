@@ -9,7 +9,7 @@ namespace LaCabana.Controllers
     public class UsuarioController : ApiController
     {
         UsuarioModel instanciaUsuario = new UsuarioModel();
-        BitacoraModel instanciaBitacora = new BitacoraModel();
+        ErrorLogModel instanciaBitacora = new ErrorLogModel();
 
         [AllowAnonymous]
         [HttpPost]
@@ -22,7 +22,7 @@ namespace LaCabana.Controllers
             }
             catch (Exception ex)
             {
-                instanciaBitacora.Registrar_Bitacora(usuario.Correo, ex, MethodBase.GetCurrentMethod().Name);
+                instanciaBitacora.Registrar_ErrorLog(usuario.Correo, ex, MethodBase.GetCurrentMethod().Name);
 
                 RespuestaUsuarioObj respuesta = new RespuestaUsuarioObj();
                 respuesta.Codigo = -1;
@@ -31,6 +31,7 @@ namespace LaCabana.Controllers
             }
         }
 
+
         [AllowAnonymous]
         [HttpPost]
         [Route("api/Usuario/Registrar_Usuario")]
@@ -38,12 +39,32 @@ namespace LaCabana.Controllers
         {
             try
             {
-                //Consultar usuarios por correo
                 return instanciaUsuario.Registrar_Usuario(usuario);
             }
             catch (Exception ex)
             {
-                instanciaBitacora.Registrar_Bitacora(usuario.Correo, ex, MethodBase.GetCurrentMethod().Name);
+                instanciaBitacora.Registrar_ErrorLog(usuario.Correo, ex, MethodBase.GetCurrentMethod().Name);
+
+                RespuestaUsuarioObj respuesta = new RespuestaUsuarioObj();
+                respuesta.Codigo = -1;
+                respuesta.Mensaje = "Se presentó un error inesperado";
+                return respuesta;
+            }
+        }
+
+
+        [Authorize]
+        [HttpPut]
+        [Route("api/Usuario/Actualizar_Usuario")]
+        public RespuestaUsuarioObj Actualizar_Usuario(UsuarioObj usuario)
+        {
+            try
+            {
+                return instanciaUsuario.Actualizar_Usuario(usuario);
+            }
+            catch (Exception ex)
+            {
+                instanciaBitacora.Registrar_ErrorLog(usuario.Correo, ex, MethodBase.GetCurrentMethod().Name);
 
                 RespuestaUsuarioObj respuesta = new RespuestaUsuarioObj();
                 respuesta.Codigo = -1;

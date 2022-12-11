@@ -6,9 +6,9 @@ using System.Web.Http;
 
 namespace LaCabana.Controllers
 {
-    public class ReservaController : ApiController
+    public class HabitacionController : ApiController
     {
-        ReservaModel instanciaReserva = new ReservaModel();
+        HabitacionModel instanciaReserva = new ReservaModel();
         ErrorLogModel instanciaBitacora = new ErrorLogModel();
 
         [Authorize]

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using LaCabana.App_Start;
 using System.Web.Http;
 
 namespace LaCabana
@@ -19,6 +17,7 @@ namespace LaCabana
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
+            config.MessageHandlers.Add(new TokenValidator());
         }
     }
 }

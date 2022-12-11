@@ -14,6 +14,7 @@ namespace LaCabana.Models
         public string ApeMaterno { get; set; }
         public string HorarioDia { get; set; }
         public string HorarioHora { get; set; }
+        public string Token { get; set; }
     }
 
     public class RespuestaEmpleadoObj

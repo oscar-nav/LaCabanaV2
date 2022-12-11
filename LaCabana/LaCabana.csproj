@@ -177,6 +177,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\TokenValidator.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Areas\HelpPage\ApiDescriptionExtensions.cs" />
     <Compile Include="Areas\HelpPage\App_Start\HelpPageConfig.cs" />
@@ -240,23 +241,26 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\HabitacionController.cs" />
     <Compile Include="Controllers\ReservaController.cs" />
     <Compile Include="Controllers\EmpleadoController.cs" />
+    <Compile Include="Controllers\ActividadController.cs" />
     <Compile Include="Controllers\UsuarioController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\ActividadModel.cs" />
-    <Compile Include="Models\ActividadObj.cs" />
-    <Compile Include="Models\BitacoraModel.cs" />
-    <Compile Include="Models\BitacoraObj.cs" />
-    <Compile Include="Models\EmpleadoObj.cs" />
-    <Compile Include="Models\HabitacionObj.cs" />
-    <Compile Include="Models\ReservaObj.cs" />
+    <Compile Include="Models\HabitacionModel.cs" />
+    <Compile Include="Objects\ActividadObj.cs" />
+    <Compile Include="Models\ErrorLogModel.cs" />
+    <Compile Include="Objects\ErroLogObj.cs" />
+    <Compile Include="Objects\EmpleadoObj.cs" />
+    <Compile Include="Objects\HabitacionObj.cs" />
+    <Compile Include="Objects\ReservaObj.cs" />
     <Compile Include="Models\ReservaModel.cs" />
     <Compile Include="Models\EmpleadoModel.cs" />
     <Compile Include="Models\UsuarioModel.cs" />
-    <Compile Include="Models\UsuarioObj.cs" />
+    <Compile Include="Objects\UsuarioObj.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

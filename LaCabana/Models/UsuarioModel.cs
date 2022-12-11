@@ -21,27 +21,24 @@ namespace LaCabana.Models
         {
             using (var con = new LaCabanaKNEntities())
             {
-                var resultado = new Usuario();
-
-                resultado = (from x in con.Usuario where x.Contrasenna == usuario.Contrasenna select x).SingleOrDefault();
-
                 RespuestaUsuarioObj respuesta = new RespuestaUsuarioObj();
+                var resultado = (from x in con.Usuario where x.Contrasenna == usuario.Contrasenna select x).SingleOrDefault();
 
                 if (resultado != null)
                 {
-                    UsuarioObj usuarioExistente = new UsuarioObj();
+                    UsuarioObj usuarioEncontrado = new UsuarioObj();
 
-                    usuarioExistente.Cedula = resultado.Cedula;
-                    usuarioExistente.Correo = resultado.Correo;
-                    usuarioExistente.Nombre = resultado.Nombre;
-                    usuarioExistente.ApePaterno = resultado.ApePaterno;
-                    usuarioExistente.ApeMaterno = resultado.ApeMaterno;
-                    usuarioExistente.Telefono = resultado.Telefono;
-                    usuarioExistente.Token = CrearToken(usuario.Correo);
+                    usuarioEncontrado.Cedula = resultado.Cedula;
+                    usuarioEncontrado.Correo = resultado.Correo;
+                    usuarioEncontrado.Nombre = resultado.Nombre;
+                    usuarioEncontrado.ApePaterno = resultado.ApePaterno;
+                    usuarioEncontrado.ApeMaterno = resultado.ApeMaterno;
+                    usuarioEncontrado.Telefono = resultado.Telefono;
+                    usuarioEncontrado.Token = CrearToken(usuario.Correo);
 
                     respuesta.Codigo = 1;
                     respuesta.Mensaje = "Ok";
-                    respuesta.objeto = usuarioExistente;
+                    respuesta.objeto = usuarioEncontrado;
                 }
                 else
                 {
@@ -57,16 +54,37 @@ namespace LaCabana.Models
         {
             using (var con = new LaCabanaKNEntities())
             {
-                var nuevoUsuario = new Usuario { Nombre = usuario.Nombre, Correo = usuario.Correo, Cedula = usuario.Cedula, Contrasenna = usuario.Contrasenna, ApePaterno = usuario.ApePaterno, ApeMaterno = usuario.ApeMaterno, Telefono = usuario.Telefono };
+                RespuestaUsuarioObj respuesta = new RespuestaUsuarioObj();
+
+                var existeCorreo = (from x in con.Usuario
+                                    where x.Correo == usuario.Correo
+                                    select x).FirstOrDefault();
+
+                if (existeCorreo != null)
+                {
+                    respuesta.Codigo = 2;
+                    respuesta.Mensaje = "El correo ya existe";
+                    return respuesta;
+                }
+
+                var nuevoUsuario = new Usuario
+                {
+                    Nombre = usuario.Nombre,
+                    Cedula = usuario.Cedula,
+                    Contrasenna = usuario.Contrasenna,
+                    ApePaterno = usuario.ApePaterno,
+                    ApeMaterno = usuario.ApeMaterno,
+                    Correo = usuario.Correo,
+                    Telefono = usuario.Telefono,
+                };
+
                 con.Usuario.Add(nuevoUsuario);
                 var resultado = con.SaveChanges();
-
-                RespuestaUsuarioObj respuesta = new RespuestaUsuarioObj();
 
                 if (resultado > 0)
                 {
                     respuesta.Codigo = 1;
-                    respuesta.Mensaje = "Usuario Registrado Correctamente";
+                    respuesta.Mensaje = "Ok";
                 }
                 else
                 {
@@ -78,7 +96,45 @@ namespace LaCabana.Models
             }
         }
 
-       
+        public RespuestaUsuarioObj Actualizar_Usuario(UsuarioObj usuario)
+        {
+            using (var con = new LaCabanaKNEntities())
+            {
+                RespuestaUsuarioObj respuesta = new RespuestaUsuarioObj();
+
+                var existeEmpleado = (from x in con.Usuario
+                                      where x.Cedula == usuario.Cedula
+                                      select x).FirstOrDefault();
+
+                var nuevoEmpleado = new Usuario
+                {
+                    Nombre = usuario.Nombre,
+                    Cedula = usuario.Cedula,
+                    Contrasenna = usuario.Contrasenna,
+                    ApePaterno = usuario.ApePaterno,
+                    ApeMaterno = usuario.ApeMaterno,
+                    Correo  = usuario.Correo,
+                    Telefono = usuario.Telefono,
+                };
+                existeEmpleado = nuevoEmpleado;
+                var resultado = con.SaveChanges();
+
+                if (resultado > 0)
+                {
+                    respuesta.Codigo = 1;
+                    respuesta.Mensaje = "Ok";
+                }
+                else
+                {
+                    respuesta.Codigo = 0;
+                    respuesta.Mensaje = "No se realizó la transacción";
+                }
+
+                return respuesta;
+            }
+        }
+
+
 
         private string CrearToken(string Correo)
         {
@@ -86,7 +142,7 @@ namespace LaCabana.Models
                 new Claim(ClaimTypes.Name, Correo)
             };
 
-            var llave = "laCabanaRemix2022";
+            var llave = "lacabaña118150407@";
             var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(llave));
             var cred = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
 

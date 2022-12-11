@@ -9,7 +9,8 @@ namespace LaCabana.Controllers
     public class EmpleadoController : ApiController
     {
         EmpleadoModel instanciaEmpleado = new EmpleadoModel();
-        BitacoraModel instanciaBitacora = new BitacoraModel();
+        ErrorLogModel instanciaBitacora = new ErrorLogModel();
+
 
         [AllowAnonymous]
         [HttpPost]
@@ -22,7 +23,7 @@ namespace LaCabana.Controllers
             }
             catch (Exception ex)
             {
-                instanciaBitacora.Registrar_Bitacora(empleado.Cedula.ToString(), ex, MethodBase.GetCurrentMethod().Name);
+                instanciaBitacora.Registrar_ErrorLog(empleado.Cedula.ToString(), ex, MethodBase.GetCurrentMethod().Name);
 
                 RespuestaEmpleadoObj respuesta = new RespuestaEmpleadoObj();
                 respuesta.Codigo = -1;
@@ -31,6 +32,7 @@ namespace LaCabana.Controllers
             }
         }
 
+
         [AllowAnonymous]
         [HttpPost]
         [Route("api/Empleado/Registrar_Empleado")]
@@ -38,12 +40,53 @@ namespace LaCabana.Controllers
         {
             try
             {
-                //Consultar empleados por correo
                 return instanciaEmpleado.Registrar_Empleado(empleado);
             }
             catch (Exception ex)
             {
-                instanciaBitacora.Registrar_Bitacora(empleado.Cedula.ToString(), ex, MethodBase.GetCurrentMethod().Name);
+                instanciaBitacora.Registrar_ErrorLog(empleado.Cedula.ToString(), ex, MethodBase.GetCurrentMethod().Name);
+
+                RespuestaEmpleadoObj respuesta = new RespuestaEmpleadoObj();
+                respuesta.Codigo = -1;
+                respuesta.Mensaje = "Se presentó un error inesperado";
+                return respuesta;
+            }
+        }
+
+
+        [Authorize]
+        [HttpPut]
+        [Route("api/Empleado/Actualizar_Empleado")]
+        public RespuestaEmpleadoObj Actualizar_Empleado(EmpleadoObj empleado)
+        {
+            try
+            {
+                return instanciaEmpleado.Actualizar_Empleado(empleado);
+            }
+            catch (Exception ex)
+            {
+                instanciaBitacora.Registrar_ErrorLog(empleado.Cedula.ToString(), ex, MethodBase.GetCurrentMethod().Name);
+
+                RespuestaEmpleadoObj respuesta = new RespuestaEmpleadoObj();
+                respuesta.Codigo = -1;
+                respuesta.Mensaje = "Se presentó un error inesperado";
+                return respuesta;
+            }
+        }
+
+        [Authorize]
+        [HttpGet]
+        [Route("api/Empleado/Consultar_Empleado_Id")]
+        public RespuestaEmpleadoObj Consultar_Empleado_Id(long id)
+        {
+            var correoToken = Thread.CurrentPrincipal.Identity.Name;
+            try
+            {
+                return instanciaEmpleado.Consultar_Empleado_Id(id);
+            }
+            catch (Exception ex)
+            {
+                instanciaBitacora.Registrar_ErrorLog(correoToken, ex, MethodBase.GetCurrentMethod().Name);
 
                 RespuestaEmpleadoObj respuesta = new RespuestaEmpleadoObj();
                 respuesta.Codigo = -1;

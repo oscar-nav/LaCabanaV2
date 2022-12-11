@@ -133,7 +133,7 @@ namespace LaCabana.Models
             }
         }
 
-        public RespuestaActividadObj Actividades(ActividadObj actividad)
+        public RespuestaActividadObj Actividades()
         {
             using (var con = new LaCabanaKNEntities())
             {

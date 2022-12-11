@@ -1,9 +1,7 @@
 ﻿using LaCabana.Models;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Web;
+using System.Threading;
 using System.Web.Http;
 
 namespace LaCabana.Controllers
@@ -11,43 +9,83 @@ namespace LaCabana.Controllers
     public class ActividadController : ApiController
     {
         ActividadModel instanciaActividad = new ActividadModel();
-        BitacoraModel instanciaBitacora = new BitacoraModel();
+        ErrorLogModel instanciaBitacora = new ErrorLogModel();
 
-        [AllowAnonymous]
+        [Authorize]
         [HttpPost]
-        [Route("api/Usuario/Validar_Actividad")]
-        public RespuestaUsuarioObj Validar_Usuario(UsuarioObj usuario)
+        [Route("api/Actividad/Crear_Actividad")]
+        public RespuestaActividadObj Crear_Actividad(ActividadObj actividad)
         {
             try
             {
-                return instanciaUsuario.Validar_Usuario(usuario);
+                return instanciaActividad.Crear_Actividad(actividad);
             }
             catch (Exception ex)
             {
-                instanciaBitacora.Registrar_Bitacora(usuario.Correo, ex, MethodBase.GetCurrentMethod().Name);
+                instanciaBitacora.Registrar_ErrorLog("SISTEMA", ex, MethodBase.GetCurrentMethod().Name);
 
-                RespuestaUsuarioObj respuesta = new RespuestaUsuarioObj();
+                RespuestaActividadObj respuesta = new RespuestaActividadObj();
                 respuesta.Codigo = -1;
                 respuesta.Mensaje = "Se presentó un error inesperado";
                 return respuesta;
             }
         }
 
-        [AllowAnonymous]
-        [HttpPost]
-        [Route("api/Usuario/Registrar_Usuario")]
-        public RespuestaUsuarioObj Registrar_Usuario(UsuarioObj usuario)
+
+        [Authorize]
+        [HttpPut]
+        [Route("api/Actividad/Modificar_Actividad")]
+        public RespuestaActividadObj Modificar_Actividad(ActividadObj actividad)
         {
             try
             {
-                //Consultar usuarios por correo
-                return instanciaUsuario.Registrar_Usuario(usuario);
+                return instanciaActividad.Modificar_Actividad(actividad);
             }
             catch (Exception ex)
             {
-                instanciaBitacora.Registrar_Bitacora(usuario.Correo, ex, MethodBase.GetCurrentMethod().Name);
+                instanciaBitacora.Registrar_ErrorLog("SISTEMA", ex, MethodBase.GetCurrentMethod().Name);
 
-                RespuestaUsuarioObj respuesta = new RespuestaUsuarioObj();
+                RespuestaActividadObj respuesta = new RespuestaActividadObj();
+                respuesta.Codigo = -1;
+                respuesta.Mensaje = "Se presentó un error inesperado";
+                return respuesta;
+            }
+        }
+
+        [Authorize]
+        [HttpPut]
+        [Route("api/Actividad/Eliminar_Actividad")]
+        public RespuestaActividadObj Eliminar_Actividad(ActividadObj actividad)
+        {
+            try
+            {
+                return instanciaActividad.Eliminar_Actividad(actividad);
+            }
+            catch (Exception ex)
+            {
+                instanciaBitacora.Registrar_ErrorLog("SISTEMA", ex, MethodBase.GetCurrentMethod().Name);
+
+                RespuestaActividadObj respuesta = new RespuestaActividadObj();
+                respuesta.Codigo = -1;
+                respuesta.Mensaje = "Se presentó un error inesperado";
+                return respuesta;
+            }
+        }
+
+        [Authorize]
+        [HttpPut]
+        [Route("api/Actividad/Actividades")]
+        public RespuestaActividadObj Actividades()
+        {
+            try
+            {
+                return instanciaActividad.Actividades();
+            }
+            catch (Exception ex)
+            {
+                instanciaBitacora.Registrar_ErrorLog("SISTEMA", ex, MethodBase.GetCurrentMethod().Name);
+
+                RespuestaActividadObj respuesta = new RespuestaActividadObj();
                 respuesta.Codigo = -1;
                 respuesta.Mensaje = "Se presentó un error inesperado";
                 return respuesta;
