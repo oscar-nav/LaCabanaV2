@@ -53,7 +53,7 @@ namespace LaCabana.Controllers
         }
 
         [Authorize]
-        [HttpPut]
+        [HttpPost]
         [Route("api/Actividad/Eliminar_Actividad")]
         public RespuestaActividadObj Eliminar_Actividad(ActividadObj actividad)
         {
@@ -72,8 +72,8 @@ namespace LaCabana.Controllers
             }
         }
 
-        [Authorize]
-        [HttpPut]
+        [AllowAnonymous]
+        [HttpGet]
         [Route("api/Actividad/Actividades")]
         public RespuestaActividadObj Actividades()
         {

@@ -53,9 +53,12 @@ namespace LaCabana.Models
                 var nuevoEmpleado = new Empleado 
                 {
                     Nombre = empleado.Nombre,
-                    Cedula = empleado.Cedula, Contrasenna = empleado.Contrasenna,
-                    ApePaterno = empleado.ApePaterno, ApeMaterno = empleado.ApeMaterno,
-                    HorarioDia= empleado.HorarioDia, HorarioHora = empleado.HorarioHora
+                    Cedula = empleado.Cedula, 
+                    Contrasenna = empleado.Contrasenna,
+                    ApePaterno = empleado.ApePaterno, 
+                    ApeMaterno = empleado.ApeMaterno,
+                    HorarioDia= empleado.HorarioDia, 
+                    HorarioHora = empleado.HorarioHora
                 };
 
                 con.Empleado.Add(nuevoEmpleado);

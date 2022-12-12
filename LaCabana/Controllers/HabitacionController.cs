@@ -8,12 +8,12 @@ namespace LaCabana.Controllers
 {
     public class HabitacionController : ApiController
     {
-        HabitacionModel instanciaReserva = new ReservaModel();
+        ReservaModel instanciaReserva = new ReservaModel();
         ErrorLogModel instanciaBitacora = new ErrorLogModel();
 
         [Authorize]
         [HttpPost]
-        [Route("api/Reserva/Crear_Reserva")]
+        [Route("api/Reserva/Crear_Habitacion")]
         public RespuestaReservaObj Crear_Reserva(ReservaObj reserva)
         {
             try
@@ -49,7 +49,7 @@ namespace LaCabana.Controllers
             }
         }
 
-        [Authorize]
+        [AllowAnonymous]
         [HttpPost]
         [Route("api/Reserva/Leer_Reserva")]
         public RespuestaReservaObj Leer_Reserva(ReservaObj reserva)

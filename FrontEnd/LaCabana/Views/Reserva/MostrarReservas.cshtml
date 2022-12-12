@@ -1,0 +1,136 @@
+﻿@model IEnumerable<LaCabana.Models.ReservaObj>
+
+@{
+    ViewBag.Title = "MostrarReservas";
+}
+
+<h2>MostrarReservas</h2>
+
+
+@Html.ActionLink("Crear nueva reserva", "CrearReservas", "Reserva", null, new { @class = "btn btn-primary" })
+<br />
+<br />
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+
+<div class="card">
+
+    <div class="row">
+        <div class="col-12">
+
+            <div class="card-header">
+                <h3 class="card-title">Expandable Table</h3>
+            </div>
+
+            <div class="card-body">
+
+                <table class="tblDatosReservas"  class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th>
+                                @Html.DisplayNameFor(model => model.IdReserva)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.FechaCreacion)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.FechaInicio)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.FechaFinal)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.PrecioTotal)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.PrecioActividad)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.PrecioHabitacion)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Descuento)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.CedulaUsuario)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.CedulaEmpleado)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.IdActividad)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.IdHabitacion)
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.IdReserva)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.FechaCreacion)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.FechaInicio)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.FechaFinal)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.PrecioTotal)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.PrecioActividad)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.PrecioHabitacion)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Descuento)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.CedulaUsuario)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.CedulaEmpleado)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.IdActividad)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.IdHabitacion)
+                                </td>
+                                <td>
+
+                                    @if (Session["Cedula"].ToString() != item.CedulaUsuario.ToString())
+                                    {
+                                        @Html.ActionLink("Actualizar", "ActualizarReserva", "Reserva", new { id = item.IdReserva }, new { @class = "btn btn-primary" })
+                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-book-id="@item.CedulaUsuario">
+                                            Cambiar Estado
+                                        </button>
+                                    }
+                                    else
+                                    {
+                                        <input type="button" class="btn btn-secondary disabled" value="Actualizar" style="cursor:not-allowed">
+                                        <input type="button" class="btn btn-secondary disabled" value="Cambiar Estado" style="cursor:not-allowed">
+                                    }
+                                </td>
+                            </tr>
+
+                        }
+                    </tbody>
+
+                </table>
+                </div>
+            </div>
+        </div>
+    </div>
+

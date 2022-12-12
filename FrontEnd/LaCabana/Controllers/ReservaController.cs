@@ -2,11 +2,11 @@
 using System;
 using System.Reflection;
 using System.Threading;
-using System.Web.Http;
+using System.Web.Mvc;
 
 namespace LaCabana.Controllers
 {
-    public class ReservaController : ApiController
+    public class ReservaController : Controller
     {
         ReservaModel instanciaReserva = new ReservaModel();
         BitacoraModel instanciaBitacora = new BitacoraModel();
@@ -105,6 +105,8 @@ namespace LaCabana.Controllers
                 return respuesta;
             }
         }
+
+
 
     }
 }

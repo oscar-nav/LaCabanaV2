@@ -2,11 +2,11 @@
 using System;
 using System.Reflection;
 using System.Threading;
-using System.Web.Http;
+using System.Web.Mvc;
 
 namespace LaCabana.Controllers
 {
-    public class EmpleadoController : ApiController
+    public class EmpleadoController : Controller
     {
         EmpleadoModel instanciaEmpleado = new EmpleadoModel();
         BitacoraModel instanciaBitacora = new BitacoraModel();
