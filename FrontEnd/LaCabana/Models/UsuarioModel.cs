@@ -8,10 +8,14 @@ using System.Configuration;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Net;
+using System.Net.Http.Json;
+using System.Net.Http;
 using System.Net.Mail;
 using System.Net.Security;
 using System.Security.Claims;
 using System.Security.Cryptography.X509Certificates;
+using System.Net.Http.Headers;
+using System.Web;
 
 namespace LaCabana.Models
 {
@@ -19,83 +23,84 @@ namespace LaCabana.Models
     {
         public RespuestaUsuarioObj Validar_Usuario(UsuarioObj usuario)
         {
-            using (var con = new LaCabanaKNEntities())
+            using (HttpClient client = new HttpClient())
             {
-                var resultado = new Usuario();
+                string rutaApi = ConfigurationManager.AppSettings["rutaApi"] + "api/Usuario/Validar_Usuario";
 
-                resultado = (from x in con.Usuario where x.Contrasenna == usuario.Contrasenna select x).SingleOrDefault();
+                //Serializar --> System.Net.Http.Json;
+                JsonContent contenido = JsonContent.Create(usuario);
 
-                RespuestaUsuarioObj respuesta = new RespuestaUsuarioObj();
+                HttpResponseMessage respuesta = client.PostAsync(rutaApi, contenido).Result;
 
-                if (resultado != null)
+                if (respuesta.IsSuccessStatusCode)
                 {
-                    UsuarioObj usuarioExistente = new UsuarioObj();
-
-                    usuarioExistente.Cedula = resultado.Cedula;
-                    usuarioExistente.Correo = resultado.Correo;
-                    usuarioExistente.Nombre = resultado.Nombre;
-                    usuarioExistente.ApePaterno = resultado.ApePaterno;
-                    usuarioExistente.ApeMaterno = resultado.ApeMaterno;
-                    usuarioExistente.Telefono = resultado.Telefono;
-                    usuarioExistente.Token = CrearToken(usuario.Correo);
-
-                    respuesta.Codigo = 1;
-                    respuesta.Mensaje = "Ok";
-                    respuesta.objeto = usuarioExistente;
+                    //Deserializar --> System.Net.Http.Formatting.Extension
+                    return respuesta.Content.ReadAsAsync<RespuestaUsuarioObj>().Result;
                 }
-                else
-                {
-                    respuesta.Codigo = 0;
-                    respuesta.Mensaje = "No se encontraron resultados";
-                }
-
-                return respuesta;
+                return null;
             }
         }
 
         public RespuestaUsuarioObj Registrar_Usuario(UsuarioObj usuario)
         {
-            using (var con = new LaCabanaKNEntities())
+            using (HttpClient client = new HttpClient())
             {
-                var nuevoUsuario = new Usuario { Nombre = usuario.Nombre, Correo = usuario.Correo, Cedula = usuario.Cedula, Contrasenna = usuario.Contrasenna, ApePaterno = usuario.ApePaterno, ApeMaterno = usuario.ApeMaterno, Telefono = usuario.Telefono };
-                con.Usuario.Add(nuevoUsuario);
-                var resultado = con.SaveChanges();
+                string rutaApi = ConfigurationManager.AppSettings["rutaApi"] + "api/Usuario/Registrar_Usuario";
 
-                RespuestaUsuarioObj respuesta = new RespuestaUsuarioObj();
+                //Serializar --> System.Net.Http.Json;
+                JsonContent contenido = JsonContent.Create(usuario);
 
-                if (resultado > 0)
+                HttpResponseMessage respuesta = client.PostAsync(rutaApi, contenido).Result;
+
+                if (respuesta.IsSuccessStatusCode)
                 {
-                    respuesta.Codigo = 1;
-                    respuesta.Mensaje = "Usuario Registrado Correctamente";
+                    //Deserializar --> System.Net.Http.Formatting.Extension
+                    return respuesta.Content.ReadAsAsync<RespuestaUsuarioObj>().Result;
                 }
-                else
-                {
-                    respuesta.Codigo = 0;
-                    respuesta.Mensaje = "No se realizó la transacción";
-                }
-
-                return respuesta;
+                return null;
             }
         }
 
-       
-
-        private string CrearToken(string Correo)
+        public RespuestaUsuarioObj Actualizar_Usuario(UsuarioObj usuario)
         {
-            List<Claim> claims = new List<Claim> {
-                new Claim(ClaimTypes.Name, Correo)
-            };
+            using (HttpClient client = new HttpClient())
+            {
+                string rutaApi = ConfigurationManager.AppSettings["rutaApi"] + "api/Usuario/Actualizar_Usuario";
+                string token = HttpContext.Current.Session["codigoToken"].ToString();
 
-            var llave = "laCabanaRemix2022";
-            var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(llave));
-            var cred = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
+                //Serializar --> System.Net.Http.Json;
+                JsonContent contenido = JsonContent.Create(usuario);
 
-            var token = new JwtSecurityToken(
-                claims: claims,
-                expires: DateTime.UtcNow.AddMinutes(10),
-                signingCredentials: cred);
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                HttpResponseMessage respuesta = client.PutAsync(rutaApi, contenido).Result;
 
-            return new JwtSecurityTokenHandler().WriteToken(token);
+                if (respuesta.IsSuccessStatusCode)
+                {
+                    //Deserializar --> System.Net.Http.Formatting.Extension
+                    return respuesta.Content.ReadAsAsync<RespuestaUsuarioObj>().Result;
+                }
+                return null;
+            }
         }
     }
 }
+
+//private string CrearToken(string Correo)
+//{
+//    List<Claim> claims = new List<Claim> {
+//        new Claim(ClaimTypes.Name, Correo)
+//    };
+
+//    var llave = "laCabanaRemix2022";
+//    var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(llave));
+//    var cred = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
+
+//    var token = new JwtSecurityToken(
+//        claims: claims,
+//        expires: DateTime.UtcNow.AddMinutes(10),
+//        signingCredentials: cred);
+
+//    return new JwtSecurityTokenHandler().WriteToken(token);
+//}
+
+
