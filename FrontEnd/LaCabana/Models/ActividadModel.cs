@@ -1,10 +1,15 @@
 ﻿using LaCabana.BD;
 using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Net.Http;
 using System.Security.Claims;
+using System.Net.Http.Headers;
+using System.Net.Http.Json;
 using System.Web;
 
 namespace LaCabana.Models
@@ -14,202 +19,128 @@ namespace LaCabana.Models
 
         public RespuestaActividadObj Crear_Actividad(ActividadObj actividad)
         {
-            using (var con = new LaCabanaKNEntities())
+            using (HttpClient client = new HttpClient())
             {
-                var nuevaActividad = new Actividad
+
+                string rutaApi = ConfigurationManager.AppSettings["rutaApi"] + "api/Actividad/Crear_Actividad";
+
+                //Serializar --> System.Net.Http.Json;
+                JsonContent contenido = JsonContent.Create(actividad);
+
+                HttpResponseMessage respuesta = client.PostAsync(rutaApi, contenido).Result;
+
+                if (respuesta.IsSuccessStatusCode)
                 {
-                    IDActividad = actividad.IDActividad,
-                    Nombre = actividad.Nombre,
-                    Descripcion = actividad.Descripcion,
-                    Lugar = actividad.Lugar,
-                    Precio = actividad.Precio
-                };
-
-                con.Actividad.Add(nuevaActividad);
-                var resultado = con.SaveChanges();
-
-                RespuestaActividadObj respuesta = new RespuestaActividadObj();
-
-                if (resultado > 0)
-                {
-                    respuesta.Codigo = 1;
-                    respuesta.Mensaje = "Reserva Registrada Correctamente";
+                    //Deserializar --> System.Net.Http.Formatting.Extension
+                    return respuesta.Content.ReadAsAsync<RespuestaActividadObj>().Result;
                 }
-                else
-                {
-                    respuesta.Codigo = 0;
-                    respuesta.Mensaje = "No se realizó la transacción";
-                }
-
-                return respuesta;
+                return null;
             }
         }
 
         public RespuestaActividadObj Validar_Actividad(ActividadObj activdad)
         {
-            using (var con = new LaCabanaKNEntities())
+            using (HttpClient client = new HttpClient())
             {
-                var resultado = new Actividad();
+                string rutaApi = ConfigurationManager.AppSettings["rutaApi"] + "api/Actividad/Validar_Actividad";
 
-                resultado = (from x in con.Actividad where x.Nombre == activdad.Nombre select x).SingleOrDefault();
+                //Serializar --> System.Net.Http.Json;
+                JsonContent contenido = JsonContent.Create(activdad);
 
-                RespuestaActividadObj respuesta = new RespuestaActividadObj();
+                HttpResponseMessage respuesta = client.PostAsync(rutaApi, contenido).Result;
 
-                if (resultado != null)
+                if (respuesta.IsSuccessStatusCode)
                 {
-                    ActividadObj actividadExistente = new ActividadObj();
-
-                    actividadExistente.IDActividad = resultado.IDActividad;
-                    actividadExistente.Nombre = resultado.Nombre;
-                    actividadExistente.Descripcion = resultado.Descripcion;
-                    actividadExistente.Disponibilidad = resultado.Disponibilidad;
-                    actividadExistente.Lugar = resultado.Lugar;
-                    actividadExistente.Precio = (float)resultado.Precio;
-
-                    respuesta.Codigo = 1;
-                    respuesta.Mensaje = "Ok";
-                    respuesta.objeto = actividadExistente;
+                    //Deserializar --> System.Net.Http.Formatting.Extension
+                    return respuesta.Content.ReadAsAsync<RespuestaActividadObj>().Result;
                 }
-                else
-                {
-                    respuesta.Codigo = 0;
-                    respuesta.Mensaje = "No se encontraron resultados";
-                }
-
-                return respuesta;
+                return null;
             }
         }
+        
 
         public RespuestaActividadObj Registrar_Actividad(ActividadObj actividad)
 
         {
-            using (var con = new LaCabanaKNEntities())
+            using (HttpClient client = new HttpClient())
             {
-                var nuevaActividad = new Actividad { Nombre = actividad.Nombre, Descripcion = actividad.Descripcion, Disponibilidad = actividad.Disponibilidad, Lugar = actividad.Lugar, Precio = actividad.Precio };
-                con.Actividad.Add(nuevaActividad);
-                var resultado = con.SaveChanges();
+                string rutaApi = ConfigurationManager.AppSettings["rutaApi"] + "api/Actividad/Registrar_Actividad";
 
-                RespuestaActividadObj respuesta = new RespuestaActividadObj();
+                //Serializar --> System.Net.Http.Json;
+                JsonContent contenido = JsonContent.Create(actividad);
 
-                if (resultado > 0)
+                HttpResponseMessage respuesta = client.PostAsync(rutaApi, contenido).Result;
+
+                if (respuesta.IsSuccessStatusCode)
                 {
-                    respuesta.Codigo = 1;
-                    respuesta.Mensaje = "Actividad Registrada Correctamente";
+                    //Deserializar --> System.Net.Http.Formatting.Extension
+                    return respuesta.Content.ReadAsAsync<RespuestaActividadObj>().Result;
                 }
-                else
-                {
-                    respuesta.Codigo = 0;
-                    respuesta.Mensaje = "No se realizó la transacción";
-                }
-
-                return respuesta;
+                return null;
             }
         }
+
 
         public RespuestaActividadObj Eliminar_Actividad(ActividadObj actividad)
         {
-            using (var con = new LaCabanaKNEntities())
+            using (HttpClient client = new HttpClient())
             {
+                string rutaApi = ConfigurationManager.AppSettings["rutaApi"] + "api/Actividad/Eliminar_Actividad";
+                string token = HttpContext.Current.Session["codigoToken"].ToString();
 
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                HttpResponseMessage respuesta = client.GetAsync(rutaApi).Result;
 
-                var actividadExistente = (from x in con.Actividad where x.IDActividad == actividad.IDActividad select x).SingleOrDefault();
-                con.Actividad.Remove(actividadExistente);
-                var resultado = con.SaveChanges();
-
-                RespuestaActividadObj respuesta = new RespuestaActividadObj();
-
-                if (resultado > 0)
+                if (respuesta.IsSuccessStatusCode)
                 {
-                    respuesta.Codigo = 1;
-                    respuesta.Mensaje = "Actividad Eliminada Correctamente";
+                    //Deserializar --> System.Net.Http.Formatting.Extension
+                    return respuesta.Content.ReadAsAsync<RespuestaActividadObj>().Result;
                 }
-                else
-                {
-                    respuesta.Codigo = 0;
-                    respuesta.Mensaje = "No se realizó la transacción de manera exitosa";
-                }
+                return null;
 
-                return respuesta;
             }
         }
+
 
         public RespuestaActividadObj Actividades(ActividadObj actividad)
         {
-            using (var con = new LaCabanaKNEntities())
+            using (HttpClient client = new HttpClient())
             {
+                string rutaApi = ConfigurationManager.AppSettings["rutaApi"] + "api/Actividad/Actividades";
+                string token = HttpContext.Current.Session["codigoToken"].ToString();
 
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                HttpResponseMessage respuesta = client.GetAsync(rutaApi).Result;
 
-                var resultado = (from x in con.Actividad select x).ToList();
-
-
-                RespuestaActividadObj respuesta = new RespuestaActividadObj();
-
-
-                if (resultado != null)
+                if (respuesta.IsSuccessStatusCode)
                 {
-
-                    List<ActividadObj> actividades = new List<ActividadObj>();
-
-                    foreach (var r in resultado)
-                    {
-                        actividades.Add(new ActividadObj
-                        {
-                            IDActividad = (int)r.IDActividad,
-                            Nombre = r.Nombre,
-                            Descripcion = r.Descripcion,
-                            Disponibilidad = r.Disponibilidad,
-                            Precio = (float)r.Precio,
-                            Lugar = r.Lugar
-                        });
-                    }
-
-                    respuesta.Codigo = 1;
-                    respuesta.Mensaje = "Actividades Obtenidas Correctamente";
-                    respuesta.lista = actividades;
+                    //Deserializar --> System.Net.Http.Formatting.Extension
+                    return respuesta.Content.ReadAsAsync<RespuestaActividadObj>().Result;
                 }
-                else
-                {
-                    respuesta.Codigo = 0;
-                    respuesta.Mensaje = "No se realizó la transacción de manera exitosa";
-                }
-
-                return respuesta;
+                return null;
             }
         }
+        
 
         public RespuestaActividadObj Modificar_Actividad(ActividadObj actividad)
         {
-            using (var con = new LaCabanaKNEntities())
+            using (HttpClient client = new HttpClient())
             {
+                string rutaApi = ConfigurationManager.AppSettings["rutaApi"] + "api/Actividad/Modificar_Actividad";
+                string token = HttpContext.Current.Session["codigoToken"].ToString();
 
+                //Serializar --> System.Net.Http.Json;
+                JsonContent contenido = JsonContent.Create(actividad);
 
-                var actividadExistente = (from x in con.Actividad where x.IDActividad == actividad.IDActividad select x).SingleOrDefault();
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                HttpResponseMessage respuesta = client.PutAsync(rutaApi, contenido).Result;
 
-                actividadExistente.IDActividad = actividad.IDActividad;
-                actividadExistente.Nombre = actividad.Nombre;
-                actividadExistente.Descripcion = actividad.Descripcion;
-                actividadExistente.Disponibilidad = actividad.Disponibilidad;
-                actividadExistente.Precio = actividad.Precio;
-                actividadExistente.Lugar = actividad.Lugar;
-
-
-                var resultado = con.SaveChanges();
-
-
-                RespuestaActividadObj respuesta = new RespuestaActividadObj();
-
-                if (resultado > 0)
+                if (respuesta.IsSuccessStatusCode)
                 {
-                    respuesta.Codigo = 1;
-                    respuesta.Mensaje = "Actividad Actualizada Correctamente";
+                    //Deserializar --> System.Net.Http.Formatting.Extension
+                    return respuesta.Content.ReadAsAsync<RespuestaActividadObj>().Result;
                 }
-                else
-                {
-                    respuesta.Codigo = 0;
-                    respuesta.Mensaje = "No se realizó la transacción de manera exitosa";
-                }
-
-                return respuesta;
+                return null;
             }
         }
 
