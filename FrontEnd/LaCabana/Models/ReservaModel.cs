@@ -2,7 +2,12 @@
 
 using LaCabana.BD;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
+using System.Net.Http.Json;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Web;
 
 namespace LaCabana.Models
 {
@@ -11,178 +16,105 @@ namespace LaCabana.Models
 
         public RespuestaReservaObj Crear_Reserva(ReservaObj reserva)
         {
-            using (var con = new LaCabanaKNEntities())
+            using (HttpClient client = new HttpClient())
             {
-                var nuevaReserva = new Reserva { IDActividad = reserva.IdActividad, CedulaEmpleado = null, CedulaUsuario = reserva.CedulaUsuario,
-                    Descuento = reserva.Descuento, FechaCreacion = reserva.FechaCreacion, FechaFinal = reserva.FechaFinal, IDHabitacion = reserva.IdHabitacion,
-                    FechaInicio = reserva.FechaInicio, IDReserva =  0 , PrecioActividades = reserva.PrecioActividad , PrecioTotal = reserva.PrecioTotal };
 
-                con.Reserva.Add(nuevaReserva);
-                var resultado = con.SaveChanges();
+                string rutaApi = ConfigurationManager.AppSettings["rutaApi"] + "api/Reserva/Crear_Reserva";
 
-                RespuestaReservaObj respuesta = new RespuestaReservaObj();
+                //Serializar --> System.Net.Http.Json;
+                JsonContent contenido = JsonContent.Create(reserva);
 
-                if (resultado > 0)
+                HttpResponseMessage respuesta = client.PostAsync(rutaApi, contenido).Result;
+
+                if (respuesta.IsSuccessStatusCode)
                 {
-                    respuesta.Codigo = 1;
-                    respuesta.Mensaje = "Reserva Registrada Correctamente";
+                    //Deserializar --> System.Net.Http.Formatting.Extension
+                    return respuesta.Content.ReadAsAsync<RespuestaReservaObj>().Result;
                 }
-                else
-                {
-                    respuesta.Codigo = 0;
-                    respuesta.Mensaje = "No se realizó la transacción";
-                }
-
-                return respuesta;
+                return null;
             }
         }
 
         public RespuestaReservaObj Eliminar_Reserva(ReservaObj reserva)
         {
-            using (var con = new LaCabanaKNEntities())
+            using (HttpClient client = new HttpClient())
             {
+                string rutaApi = ConfigurationManager.AppSettings["rutaApi"] + "api/Reserva/Eliminar_Reserva";
+                string token = HttpContext.Current.Session["codigoToken"].ToString();
 
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                HttpResponseMessage respuesta = client.GetAsync(rutaApi).Result;
 
-                var reservaExistente = (from x in con.Reserva where x.IDReserva == reserva.IdReserva select x).SingleOrDefault();
-                con.Reserva.Remove(reservaExistente);
-                var resultado = con.SaveChanges();
-
-                RespuestaReservaObj respuesta = new RespuestaReservaObj();
-
-                if (resultado > 0)
+                if (respuesta.IsSuccessStatusCode)
                 {
-                    respuesta.Codigo = 1;
-                    respuesta.Mensaje = "Reserva Eliminada Correctamente";
+                    //Deserializar --> System.Net.Http.Formatting.Extension
+                    return respuesta.Content.ReadAsAsync<RespuestaReservaObj>().Result;
                 }
-                else
-                {
-                    respuesta.Codigo = 0;
-                    respuesta.Mensaje = "No se realizó la transacción de manera exitosa";
-                }
+                return null;
 
-                return respuesta;
             }
         }
 
 
         public RespuestaReservaObj Leer_Reserva(ReservaObj reserva)
+        {
+            using (HttpClient client = new HttpClient())
             {
-                using (var con = new LaCabanaKNEntities())
+                string rutaApi = ConfigurationManager.AppSettings["rutaApi"] + "api/Reserva/Leer_Reserva";
+
+                //Serializar --> System.Net.Http.Json;
+                JsonContent contenido = JsonContent.Create(reserva);
+
+                HttpResponseMessage respuesta = client.PostAsync(rutaApi, contenido).Result;
+
+                if (respuesta.IsSuccessStatusCode)
                 {
-
-
-                    var resultado = (from x in con.Reserva where x.IDReserva == reserva.IdReserva select x).SingleOrDefault();
-                    
-
-                    RespuestaReservaObj respuesta = new RespuestaReservaObj();
-
-                if (resultado != null)
-                {
-                    var list = new List<ReservaObj>();
-                    list.Add(reserva);
-                    respuesta.Codigo = 1;
-                    respuesta.Mensaje = "Reserva Obtenida Correctamente";
-                    respuesta.lista = list;
-                    }
-                    else
-                    {
-                        respuesta.Codigo = 0;
-                        respuesta.Mensaje = "No se realizó la transacción de manera exitosa";
-                    }
-
-                    return respuesta;
+                    //Deserializar --> System.Net.Http.Formatting.Extension
+                    return respuesta.Content.ReadAsAsync<RespuestaReservaObj>().Result;
                 }
+                return null;
             }
+        }
 
         public RespuestaReservaObj Reservas(ReservaObj reserva)
         {
-            using (var con = new LaCabanaKNEntities())
+
+            using (HttpClient client = new HttpClient())
             {
+                string rutaApi = ConfigurationManager.AppSettings["rutaApi"] + "api/Reserva/Reservas";
+                string token = HttpContext.Current.Session["codigoToken"].ToString();
 
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                HttpResponseMessage respuesta = client.GetAsync(rutaApi).Result;
 
-                var resultado = (from x in con.Reserva select x).ToList();
-
-
-                RespuestaReservaObj respuesta = new RespuestaReservaObj();
-
-
-                if (resultado != null)
+                if (respuesta.IsSuccessStatusCode)
                 {
-
-                    List<ReservaObj> reservas = new List<ReservaObj>();
-
-                    foreach (var r in resultado)
-                    {
-                        reservas.Add(new ReservaObj
-                        {
-                            IdActividad = (int)r.IDActividad,
-                            CedulaEmpleado = (int)r.CedulaEmpleado,
-                            CedulaUsuario = r.CedulaUsuario,
-                            Descuento = (int)r.Descuento,
-                            FechaCreacion = r.FechaCreacion,
-                            FechaFinal = r.FechaFinal,
-                            IdHabitacion = r.IDHabitacion,
-                            FechaInicio = r.FechaInicio,
-                            IdReserva = r.IDReserva,
-                            PrecioActividad = (float)r.PrecioActividades,
-                            PrecioTotal = (float)r.PrecioTotal
-                        });
-                    }
-                   
-                    respuesta.Codigo = 1;
-                    respuesta.Mensaje = "Reservas Obtenidas Correctamente";
-                    respuesta.lista = reservas;
+                    //Deserializar --> System.Net.Http.Formatting.Extension
+                    return respuesta.Content.ReadAsAsync<RespuestaReservaObj>().Result;
                 }
-                else
-                {
-                    respuesta.Codigo = 0;
-                    respuesta.Mensaje = "No se realizó la transacción de manera exitosa";
-                }
-
-                return respuesta;
+                return null;
             }
         }
 
         public RespuestaReservaObj Modificar_Reserva(ReservaObj reserva)
         {
-            using (var con = new LaCabanaKNEntities())
+            using (HttpClient client = new HttpClient())
             {
+                string rutaApi = ConfigurationManager.AppSettings["rutaApi"] + "api/Reserva/Modificar_Reserva";
+                string token = HttpContext.Current.Session["codigoToken"].ToString();
 
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                HttpResponseMessage respuesta = client.GetAsync(rutaApi).Result;
 
-                var reservaExistente = (from x in con.Reserva where x.IDReserva == reserva.IdReserva select x).SingleOrDefault();
-
-                reservaExistente.IDHabitacion = reserva.IdHabitacion;
-                reservaExistente.IDActividad = reserva.IdActividad;
-                reservaExistente.CedulaEmpleado = reserva.CedulaEmpleado;
-                reservaExistente.CedulaUsuario = reserva.CedulaUsuario;
-                reservaExistente.Descuento = reserva.Descuento;
-                reservaExistente.FechaCreacion = reserva.FechaCreacion;
-                reservaExistente.FechaFinal = reserva.FechaFinal;
-                reservaExistente.IDHabitacion = reserva.IdHabitacion;
-                reservaExistente.FechaInicio = reserva.FechaInicio;
-                reservaExistente.PrecioActividades = reserva.PrecioActividad;
-                reservaExistente.PrecioTotal = reserva.PrecioTotal;
-
-                var resultado = con.SaveChanges();
-
-
-                RespuestaReservaObj respuesta = new RespuestaReservaObj();
-
-                if (resultado > 0)
+                if (respuesta.IsSuccessStatusCode)
                 {
-                    respuesta.Codigo = 1;
-                    respuesta.Mensaje = "Reserva Actualizada Correctamente";
+                    //Deserializar --> System.Net.Http.Formatting.Extension
+                    return respuesta.Content.ReadAsAsync<RespuestaReservaObj>().Result;
                 }
-                else
-                {
-                    respuesta.Codigo = 0;
-                    respuesta.Mensaje = "No se realizó la transacción de manera exitosa";
-                }
-
-                return respuesta;
+                return null;
             }
+
+
         }
-
-
     }
 }
