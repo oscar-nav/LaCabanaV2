@@ -1,5 +1,10 @@
 ﻿using LaCabana.BD;
+using System.Configuration;
 using System.Linq;
+using System.Net.Http.Json;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Web;
 
 namespace LaCabana.Models
 {
@@ -7,68 +12,74 @@ namespace LaCabana.Models
     {
         public RespuestaEmpleadoObj Validar_Empleado(EmpleadoObj empleado)
         {
-            using (var con = new LaCabanaKNEntities())
+            using (HttpClient client = new HttpClient())
             {
-                var resultado = new Empleado();
+                string rutaApi = ConfigurationManager.AppSettings["rutaApi"] + "api/Empleado/Validar_Empleado";
 
-                resultado = (from x in con.Empleado where x.Contrasenna == empleado.Contrasenna where x.Cedula == empleado.Cedula select x).SingleOrDefault();
+                //Serializar --> System.Net.Http.Json;
+                JsonContent contenido = JsonContent.Create(empleado);
 
-                RespuestaEmpleadoObj respuesta = new RespuestaEmpleadoObj();
+                HttpResponseMessage respuesta = client.PostAsync(rutaApi, contenido).Result;
 
-                if (resultado != null)
+                if (respuesta.IsSuccessStatusCode)
                 {
-                    EmpleadoObj empleadoExistente = new EmpleadoObj();
-
-                    empleadoExistente.Cedula = resultado.Cedula;
-                    empleadoExistente.Nombre = resultado.Nombre;
-                    empleadoExistente.ApePaterno = resultado.ApePaterno;
-                    empleadoExistente.ApeMaterno = resultado.ApeMaterno;
-                    empleadoExistente.HorarioDia = resultado.HorarioDia;
-                    empleadoExistente.HorarioHora = resultado.HorarioHora;
-                    respuesta.Codigo = 1;
-                    respuesta.Mensaje = "Ok";
-                    respuesta.objeto = empleadoExistente;
+                    //Deserializar --> System.Net.Http.Formatting.Extension
+                    return respuesta.Content.ReadAsAsync<RespuestaEmpleadoObj>().Result;
                 }
-                else
-                {
-                    respuesta.Codigo = 0;
-                    respuesta.Mensaje = "No se encontraron resultados";
-                }
-
-                return respuesta;
+                return null;
             }
         }
+
 
         public RespuestaEmpleadoObj Registrar_Empleado(EmpleadoObj empleado)
         {
-            using (var con = new LaCabanaKNEntities())
+            using (HttpClient client = new HttpClient())
             {
-                var nuevoEmpleado = new Empleado 
+                string rutaApi = ConfigurationManager.AppSettings["rutaApi"] + "api/Empleado/Registrar_Empleado";
+
+                //Serializar --> System.Net.Http.Json;
+                JsonContent contenido = JsonContent.Create(empleado);
+
+                HttpResponseMessage respuesta = client.PostAsync(rutaApi, contenido).Result;
+
+                if (respuesta.IsSuccessStatusCode)
                 {
-                    Nombre = empleado.Nombre,
-                    Cedula = empleado.Cedula, Contrasenna = empleado.Contrasenna,
-                    ApePaterno = empleado.ApePaterno, ApeMaterno = empleado.ApeMaterno,
-                    HorarioDia= empleado.HorarioDia, HorarioHora = empleado.HorarioHora
-                };
-
-                con.Empleado.Add(nuevoEmpleado);
-                var resultado = con.SaveChanges();
-
-                RespuestaEmpleadoObj respuesta = new RespuestaEmpleadoObj();
-
-                if (resultado > 0)
-                {
-                    respuesta.Codigo = 1;
-                    respuesta.Mensaje = "Empleado Registrado Correctamente";
+                    //Deserializar --> System.Net.Http.Formatting.Extension
+                    return respuesta.Content.ReadAsAsync<RespuestaEmpleadoObj>().Result;
                 }
-                else
-                {
-                    respuesta.Codigo = 0;
-                    respuesta.Mensaje = "No se realizó la transacción";
-                }
-
-                return respuesta;
+                return null;
             }
         }
+
+        public RespuestaEmpleadoObj Actualizar_Empleado(EmpleadoObj empleado)
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                string rutaApi = ConfigurationManager.AppSettings["rutaApi"] + "api/Empleado/Actualizar_Empleado";
+                string token = HttpContext.Current.Session["codigoToken"].ToString();
+
+                //Serializar --> System.Net.Http.Json;
+                JsonContent contenido = JsonContent.Create(empleado);
+
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                HttpResponseMessage respuesta = client.PutAsync(rutaApi, contenido).Result;
+
+                if (respuesta.IsSuccessStatusCode)
+                {
+                    //Deserializar --> System.Net.Http.Formatting.Extension
+                    return respuesta.Content.ReadAsAsync<RespuestaEmpleadoObj>().Result;
+                }
+                return null;
+            }
+        }
+
+
+        public RespuestaEmpleadoObj Consultar_Empleado_Id(long id)
+        {
+
+        }
+
+
+
     }
 }
