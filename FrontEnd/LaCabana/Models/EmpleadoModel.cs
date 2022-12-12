@@ -76,7 +76,21 @@ namespace LaCabana.Models
 
         public RespuestaEmpleadoObj Consultar_Empleado_Id(long id)
         {
+            using (HttpClient client = new HttpClient())
+            {
+                string rutaApi = ConfigurationManager.AppSettings["rutaApi"] + "api/Empleado/Consultar_Empleado_Id?id=" + id;
+                string token = HttpContext.Current.Session["codigoToken"].ToString();
 
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                HttpResponseMessage respuesta = client.GetAsync(rutaApi).Result;
+
+                if (respuesta.IsSuccessStatusCode)
+                {
+                    //Deserializar --> System.Net.Http.Formatting.Extension
+                    return respuesta.Content.ReadAsAsync<RespuestaEmpleadoObj>().Result;
+                }
+                return null;
+            }
         }
 
 
