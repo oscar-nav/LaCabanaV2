@@ -16,8 +16,23 @@ namespace LaCabana.Controllers
             return View();
         }
 
-        ReservaModel instanciaReserva = new ReservaModel();
-        BitacoraModel instanciaBitacora = new BitacoraModel();
+        [Authorize]
+        [HttpPost]
+        [Route("api/Habitacion/Crear_Habitacion")]
+        public RespuestaHabitacionObj Crear_Habitacion(HabitacionObj habitacion)
+        {
+            try
+            {
+                return instanciaHabitacion.Crear_Habitacion(habitacion);
+            }
+            catch (Exception ex)
+            {
+                RespuestaHabitacionObj respuesta = new RespuestaHabitacionObj();
+                respuesta.Codigo = -1;
+                respuesta.Mensaje = "Se presentó un error inesperado";
+                return respuesta;
+            }
+        }
 
         [AllowAnonymous]
         [HttpPost]
@@ -30,31 +45,7 @@ namespace LaCabana.Controllers
             }
             catch (Exception ex)
             {
-<<<<<<< Updated upstream
-                instanciaBitacora.Registrar_Bitacora(empleado.Cedula.ToString(), ex, MethodBase.GetCurrentMethod().Name);
-
-                RespuestaEmpleadoObj respuesta = new RespuestaEmpleadoObj();
-=======
                 RespuestaHabitacionObj respuesta = new RespuestaHabitacionObj();
-                respuesta.Codigo = -1;
-                respuesta.Mensaje = "Se presentó un error inesperado";
-                return respuesta;
-            }
-        }
-
-        [Authorize]
-        [HttpPost]
-        [Route("api/Habitacion/Eliminar_Habitacion")]
-        public RespuestaHabitacionObj Eliminar_Habitacion(HabitacionObj habitacion)
-        {
-            try
-            {
-                return instanciaHabitacion.Eliminar_Habitacion(habitacion);
-            }
-            catch (Exception ex)
-            {
-                RespuestaHabitacionObj respuesta = new RespuestaHabitacionObj();
->>>>>>> Stashed changes
                 respuesta.Codigo = -1;
                 respuesta.Mensaje = "Se presentó un error inesperado";
                 return respuesta;
@@ -68,25 +59,16 @@ namespace LaCabana.Controllers
         {
             try
             {
-                //Consultar empleados por correo
-                return instanciaEmpleado.Registrar_Empleado(empleado);
+                return instanciaHabitacion.Leer_Habitacion(habitacion);
             }
             catch (Exception ex)
             {
-<<<<<<< Updated upstream
-                instanciaBitacora.Registrar_Bitacora(empleado.Cedula.ToString(), ex, MethodBase.GetCurrentMethod().Name);
-
-                RespuestaEmpleadoObj respuesta = new RespuestaEmpleadoObj();
-=======
                 RespuestaHabitacionObj respuesta = new RespuestaHabitacionObj();
->>>>>>> Stashed changes
                 respuesta.Codigo = -1;
                 respuesta.Mensaje = "Se presentó un error inesperado";
                 return respuesta;
             }
         }
-<<<<<<< Updated upstream
-=======
 
         [Authorize]
         [HttpGet]
@@ -123,7 +105,5 @@ namespace LaCabana.Controllers
                 return respuesta;
             }
         }
-
->>>>>>> Stashed changes
     }
 }

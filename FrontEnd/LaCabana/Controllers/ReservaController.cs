@@ -8,10 +8,6 @@ namespace LaCabana.Controllers
 {
     public class ReservaController : Controller
     {
-<<<<<<< Updated upstream
-        ReservaModel instanciaReserva = new ReservaModel();
-        BitacoraModel instanciaBitacora = new BitacoraModel();
-=======
 
         public ActionResult Index()
         {
@@ -27,7 +23,6 @@ namespace LaCabana.Controllers
 
 
         ReservaModel instanciaReserva = new ReservaModel();        
->>>>>>> Stashed changes
 
         [AllowAnonymous]
         [HttpPost]
