@@ -106,7 +106,11 @@ namespace LaCabana.Controllers
             }
         }
 
-
+        public ActionResult Habitaciones()
+        {
+            ViewBag.Title = "Habitaciones";
+            return View();
+        }
 
     }
 }

@@ -38,69 +38,69 @@
                 </div>
                 <div class="card-body">
 
-                     <table id="tblDatosHabitacion" class="table table-bordered table-hover">
-            <thead>
+                    @*     <table id="tblDatosHabitacion" class="table table-bordered table-hover">
+        <thead>
+            <tr>
+                <!-- CREAR SEGUN CAMPOS DE LA HABITACION -->
+                <th>
+                    @Html.DisplayNameFor(model => model.Nombre)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Descripcion)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Disponibilidad)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.CantidadPersonas)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Precio)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var item in Model)
+            {
                 <tr>
-                    <!-- CREAR SEGUN CAMPOS DE LA HABITACION -->
-                    <th>
-                        @Html.DisplayNameFor(model => model.Nombre)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Descripcion)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Disponibilidad)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.CantidadPersonas)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Precio)
-                    </th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Nombre)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Descripcion)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Disponibilidad)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CantidadPersonas)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Precio)
+                    </td>
+                    <td>
 
-                @foreach (var item in Model)
-                {
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Nombre)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Descripcion)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Disponibilidad)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.CantidadPersonas)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Precio)
-                        </td>
-                        <td>
+                       @if (Session["consecutivo"].ToString() != item.ConsecutivoHabitacion.ToString())
+                        {
+                            @Html.ActionLink("Actualizar", "ActualizarHabitacion", "Habitaciones", new { id = item.ConsecutivoHabitacion }, new { @class = "btn btn-primary" })
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-book-id="@item.ConsecutivoHabitacion">
+                                Cambiar Estado
+                            </button>
+                        }
+                        else
+                        {
+                            <input type="button" class="btn btn-secondary disabled" value="Actualizar" style="cursor:not-allowed">
+                            <input type="button" class="btn btn-secondary disabled" value="Cambiar Estado" style="cursor:not-allowed">
+                        }
 
-                         @*   @if (Session["consecutivo"].ToString() != item.ConsecutivoHabitacion.ToString())
-                            {
-                                @Html.ActionLink("Actualizar", "ActualizarHabitacion", "Habitaciones", new { id = item.ConsecutivoHabitacion }, new { @class = "btn btn-primary" })
-                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-book-id="@item.ConsecutivoHabitacion">
-                                    Cambiar Estado
-                                </button>
-                            }
-                            else
-                            {
-                                <input type="button" class="btn btn-secondary disabled" value="Actualizar" style="cursor:not-allowed">
-                                <input type="button" class="btn btn-secondary disabled" value="Cambiar Estado" style="cursor:not-allowed">
-                            }
-                             *@
-                        </td>
+                    </td>
                     </tr>
-                }
-            </tbody>
-        </table>
-                    
+                    }
+                    </tbody>
+                    </table>
+                    *@
                 </div>
 
             </div>

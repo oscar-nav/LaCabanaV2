@@ -1,0 +1,95 @@
+﻿@model LaCabana.Models.UsuarioObj
+@{
+    ViewBag.Title = "Home Page";
+    Layout = "~/Views/Shared/_LayoutLogin.cshtml";
+}
+
+@using (Html.BeginForm("ValidarAcceso", "Home", FormMethod.Post))
+{
+    <div class="login-box">
+        <div class="card card-outline card-primary">
+            <div class="card-header text-center">
+                <a href="../../index2.html" class="h1"><b>La Cabana</b> Login</a>
+            </div>
+
+            @Html.Hidden("txtMsjError", (string)ViewBag.MsjError)
+
+            <div class="card-body">
+
+                <div class="row">
+                    <div class="col-12">
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalSubscriptionForm" style="width:100%">
+                            Abrir Login
+                        </button>
+                    </div>
+                </div>
+
+                <br />
+
+                <p class="mb-1">
+                    <a href="forgot-password.html">¿Olvidó su contraseña?</a>
+                </p>
+                <p class="mb-0">
+                    <a href="register.html" class="text-center">¡Crear una cuenta!</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="modalSubscriptionForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header text-center">
+                    <h4 class="modal-title w-100 font-weight-bold">Subscribe</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+
+
+                <div class="modal-body mx-3">
+                    <div class="md-form mb-5">
+                        @Html.TextBoxFor(m => m.Correo, new { @class = "form-control", @placeholder = "Correo", @type = "email" })
+                    </div>
+
+                    <div class="md-form mb-4">
+                        @Html.TextBoxFor(m => m.Contrasenna, new { @class = "form-control", @placeholder = "Contraseña", @type = "password" })
+                    </div>
+
+                </div>
+                <div class="modal-footer d-flex justify-content-center">
+                    <button type="submit" class="btn btn-primary btn-block">Iniciar Sesión</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+}
+
+@section scripts
+{
+    <script>
+
+        onload = CargarDatos();
+
+        function CargarDatos() {
+
+            if ($("#txtMsjError").val() != "") {
+
+                Swal.fire({
+                    position: 'top-end',
+                    icon: 'error',
+                    title: $("#txtMsjError").val(),
+                    showConfirmButton: true
+                    //timer: 1500
+                });
+
+            }
+
+        }
+
+    </script>
+}
