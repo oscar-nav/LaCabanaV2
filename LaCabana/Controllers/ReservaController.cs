@@ -10,6 +10,8 @@ namespace LaCabana.Controllers
     {
         ReservaModel instanciaReserva = new ReservaModel();
         ErrorLogModel instanciaBitacora = new ErrorLogModel();
+        HabitacionModel instanciaHabitacion = new HabitacionModel();
+        ActividadModel instanciaActividad = new ActividadModel();
 
         [Authorize]
         [HttpPost]
@@ -18,7 +20,10 @@ namespace LaCabana.Controllers
         {
             try
             {
-                return instanciaReserva.Crear_Reserva(reserva);
+                var  reservaCreada = instanciaReserva.Crear_Reserva(reserva);
+                var habitacionReservada = instanciaHabitacion.Modificar_Habitacion(new HabitacionObj { IDHabitacion = reserva.IdHabitacion, Disponibilidad="Ocupado"});
+                var activadReservada = instanciaActividad.Modificar_Actividad(new ActividadObj { IDActividad = reserva.IdReserva, Disponibilidad = "Ocupado" });
+                return reservaCreada;
             }
             catch (Exception ex)
             {

@@ -68,7 +68,7 @@ namespace LaCabana.Controllers
             }
         }
 
-        [Authorize]
+        [AllowAnonymous]
         [HttpGet]
         [Route("api/Habitacion/Habitaciones")]
         public RespuestaHabitacionObj Habitaciones() {  
@@ -78,7 +78,7 @@ namespace LaCabana.Controllers
             }
             catch (Exception ex)
             {
-                instanciaBitacora.Registrar_ErrorLog("Leer Habitacions", ex, MethodBase.GetCurrentMethod().Name);
+                instanciaBitacora.Registrar_ErrorLog("Leer Habitaciones", ex, MethodBase.GetCurrentMethod().Name);
                 RespuestaHabitacionObj respuesta = new RespuestaHabitacionObj();
                 respuesta.Codigo = -1;
                 respuesta.Mensaje = "Se presentó un error inesperado";
