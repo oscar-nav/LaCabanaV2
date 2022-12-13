@@ -6,7 +6,7 @@ using System;
 
 namespace LaCabana.Models
 {
-    public class BitacoraModel
+    public class ErrorLogModel
     {
 
         public void Registrar_Bitacora(string correo, Exception ex, string origen)

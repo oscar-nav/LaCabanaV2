@@ -249,9 +249,10 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\ActividadModel.cs" />
+    <Compile Include="Models\HabitacionModel.cs" />
     <Compile Include="Objects\ActividadObj.cs" />
-    <Compile Include="Models\BitacoraModel.cs" />
-    <Compile Include="Objects\BitacoraObj.cs" />
+    <Compile Include="Models\ErrorLogModel.cs" />
+    <Compile Include="Objects\ErrorLogObj.cs" />
     <Compile Include="Objects\EmpleadoObj.cs" />
     <Compile Include="Objects\HabitacionObj.cs" />
     <Compile Include="Objects\ReservaObj.cs" />

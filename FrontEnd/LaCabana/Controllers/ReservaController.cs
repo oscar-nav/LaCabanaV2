@@ -8,6 +8,20 @@ namespace LaCabana.Controllers
 {
     public class ReservaController : Controller
     {
+
+        public ActionResult Index()
+        {
+            return View();
+        }
+
+        public ActionResult CrearReserva()
+        {
+            ViewBag.Title = "CrearReserva";
+
+            return View();
+        }
+
+
         ReservaModel instanciaReserva = new ReservaModel();
         BitacoraModel instanciaBitacora = new BitacoraModel();
 
@@ -106,11 +120,7 @@ namespace LaCabana.Controllers
             }
         }
 
-        public ActionResult Habitaciones()
-        {
-            ViewBag.Title = "Habitaciones";
-            return View();
-        }
+
 
     }
 }

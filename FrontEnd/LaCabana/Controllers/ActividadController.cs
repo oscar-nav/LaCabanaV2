@@ -11,7 +11,7 @@ namespace LaCabana.Controllers
     public class ActividadController : ApiController
     {
         ActividadModel instanciaActividad = new ActividadModel();
-        BitacoraModel instanciaBitacora = new BitacoraModel();
+        ErrorLogModel instanciaBitacora = new ErrorLogModel();
 
         [AllowAnonymous]
         [HttpPost]

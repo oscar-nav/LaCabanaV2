@@ -42,6 +42,12 @@ namespace LaCabana.Controllers
             return View();
         }
 
+        public ActionResult CrearReservas()
+        {
+            ViewBag.Title = "CrearReservas";
+            return View();
+        }
+
 
         UsuarioModel instanciaUsuario = new UsuarioModel();
 
