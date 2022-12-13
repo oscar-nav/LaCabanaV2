@@ -50,7 +50,7 @@ namespace LaCabana.Controllers
         }
 
         [Authorize]
-        [HttpPost]
+        [HttpGet]
         [Route("api/Reserva/Leer_Reserva")]
         public RespuestaReservaObj Leer_Reserva(ReservaObj reserva)
         {
@@ -69,7 +69,7 @@ namespace LaCabana.Controllers
         }
 
         [Authorize]
-        [HttpPost]
+        [HttpGet]
         [Route("api/Reserva/Reservas")]
         public RespuestaReservaObj Reservas(ReservaObj reserva)
         {
@@ -88,7 +88,7 @@ namespace LaCabana.Controllers
         }
 
         [Authorize]
-        [HttpPost]
+        [HttpPut]
         [Route("api/Reserva/Modificar_Reserva")]
         public RespuestaReservaObj Modificar_Reserva(ReservaObj reserva)
         {
