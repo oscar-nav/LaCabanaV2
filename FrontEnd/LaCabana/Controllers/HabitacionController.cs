@@ -30,9 +30,31 @@ namespace LaCabana.Controllers
             }
             catch (Exception ex)
             {
+<<<<<<< Updated upstream
                 instanciaBitacora.Registrar_Bitacora(empleado.Cedula.ToString(), ex, MethodBase.GetCurrentMethod().Name);
 
                 RespuestaEmpleadoObj respuesta = new RespuestaEmpleadoObj();
+=======
+                RespuestaHabitacionObj respuesta = new RespuestaHabitacionObj();
+                respuesta.Codigo = -1;
+                respuesta.Mensaje = "Se presentó un error inesperado";
+                return respuesta;
+            }
+        }
+
+        [Authorize]
+        [HttpPost]
+        [Route("api/Habitacion/Eliminar_Habitacion")]
+        public RespuestaHabitacionObj Eliminar_Habitacion(HabitacionObj habitacion)
+        {
+            try
+            {
+                return instanciaHabitacion.Eliminar_Habitacion(habitacion);
+            }
+            catch (Exception ex)
+            {
+                RespuestaHabitacionObj respuesta = new RespuestaHabitacionObj();
+>>>>>>> Stashed changes
                 respuesta.Codigo = -1;
                 respuesta.Mensaje = "Se presentó un error inesperado";
                 return respuesta;
@@ -51,13 +73,57 @@ namespace LaCabana.Controllers
             }
             catch (Exception ex)
             {
+<<<<<<< Updated upstream
                 instanciaBitacora.Registrar_Bitacora(empleado.Cedula.ToString(), ex, MethodBase.GetCurrentMethod().Name);
 
                 RespuestaEmpleadoObj respuesta = new RespuestaEmpleadoObj();
+=======
+                RespuestaHabitacionObj respuesta = new RespuestaHabitacionObj();
+>>>>>>> Stashed changes
                 respuesta.Codigo = -1;
                 respuesta.Mensaje = "Se presentó un error inesperado";
                 return respuesta;
             }
         }
+<<<<<<< Updated upstream
+=======
+
+        [Authorize]
+        [HttpGet]
+        [Route("api/Habitacion/Habitaciones")]
+        public RespuestaHabitacionObj Habitaciones()
+        {
+            try
+            {
+                return instanciaHabitacion.Habitaciones();
+            }
+            catch (Exception ex)
+            {
+                RespuestaHabitacionObj respuesta = new RespuestaHabitacionObj();
+                respuesta.Codigo = -1;
+                respuesta.Mensaje = "Se presentó un error inesperado";
+                return respuesta;
+            }
+        }
+
+        [Authorize]
+        [HttpPut]
+        [Route("api/Habitacion/Modificar_Habitacion")]
+        public RespuestaHabitacionObj Modificar_Habitacion(HabitacionObj habitacion)
+        {
+            try
+            {
+                return instanciaHabitacion.Modificar_Habitacion(habitacion);
+            }
+            catch (Exception ex)
+            {
+                RespuestaHabitacionObj respuesta = new RespuestaHabitacionObj();
+                respuesta.Codigo = -1;
+                respuesta.Mensaje = "Se presentó un error inesperado";
+                return respuesta;
+            }
+        }
+
+>>>>>>> Stashed changes
     }
 }

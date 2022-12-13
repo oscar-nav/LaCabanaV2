@@ -8,8 +8,26 @@ namespace LaCabana.Controllers
 {
     public class ReservaController : Controller
     {
+<<<<<<< Updated upstream
         ReservaModel instanciaReserva = new ReservaModel();
         BitacoraModel instanciaBitacora = new BitacoraModel();
+=======
+
+        public ActionResult Index()
+        {
+            return View();
+        }
+
+        public ActionResult CrearReservas()
+        {
+            ViewBag.Title = "Crear Reserva";
+
+            return View();
+        }
+
+
+        ReservaModel instanciaReserva = new ReservaModel();        
+>>>>>>> Stashed changes
 
         [AllowAnonymous]
         [HttpPost]
@@ -22,7 +40,6 @@ namespace LaCabana.Controllers
             }
             catch (Exception ex)
             {
-                instanciaBitacora.Registrar_Bitacora("Registro Reserva", ex, MethodBase.GetCurrentMethod().Name);
                 RespuestaReservaObj respuesta = new RespuestaReservaObj();
                 respuesta.Codigo = -1;
                 respuesta.Mensaje = "Se presentó un error inesperado";
@@ -41,7 +58,6 @@ namespace LaCabana.Controllers
             }
             catch (Exception ex)
             {
-                instanciaBitacora.Registrar_Bitacora("Eliminar Reserva", ex, MethodBase.GetCurrentMethod().Name);
                 RespuestaReservaObj respuesta = new RespuestaReservaObj();
                 respuesta.Codigo = -1;
                 respuesta.Mensaje = "Se presentó un error inesperado";
@@ -60,7 +76,6 @@ namespace LaCabana.Controllers
             }
             catch (Exception ex)
             {
-                instanciaBitacora.Registrar_Bitacora("Leer Reserva", ex, MethodBase.GetCurrentMethod().Name);
                 RespuestaReservaObj respuesta = new RespuestaReservaObj();
                 respuesta.Codigo = -1;
                 respuesta.Mensaje = "Se presentó un error inesperado";
@@ -79,7 +94,6 @@ namespace LaCabana.Controllers
             }
             catch (Exception ex)
             {
-                instanciaBitacora.Registrar_Bitacora("Leer Reservas", ex, MethodBase.GetCurrentMethod().Name);
                 RespuestaReservaObj respuesta = new RespuestaReservaObj();
                 respuesta.Codigo = -1;
                 respuesta.Mensaje = "Se presentó un error inesperado";
@@ -98,7 +112,6 @@ namespace LaCabana.Controllers
             }
             catch (Exception ex)
             {
-                instanciaBitacora.Registrar_Bitacora("Modificar Reserva", ex, MethodBase.GetCurrentMethod().Name);
                 RespuestaReservaObj respuesta = new RespuestaReservaObj();
                 respuesta.Codigo = -1;
                 respuesta.Mensaje = "Se presentó un error inesperado";

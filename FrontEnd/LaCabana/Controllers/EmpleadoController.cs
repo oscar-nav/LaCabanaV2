@@ -9,7 +9,6 @@ namespace LaCabana.Controllers
     public class EmpleadoController : Controller
     {
         EmpleadoModel instanciaEmpleado = new EmpleadoModel();
-        BitacoraModel instanciaBitacora = new BitacoraModel();
 
         [AllowAnonymous]
         [HttpPost]
@@ -22,8 +21,7 @@ namespace LaCabana.Controllers
             }
             catch (Exception ex)
             {
-                instanciaBitacora.Registrar_Bitacora(empleado.Cedula.ToString(), ex, MethodBase.GetCurrentMethod().Name);
-
+                
                 RespuestaEmpleadoObj respuesta = new RespuestaEmpleadoObj();
                 respuesta.Codigo = -1;
                 respuesta.Mensaje = "Se presentó un error inesperado";
@@ -43,8 +41,6 @@ namespace LaCabana.Controllers
             }
             catch (Exception ex)
             {
-                instanciaBitacora.Registrar_Bitacora(empleado.Cedula.ToString(), ex, MethodBase.GetCurrentMethod().Name);
-
                 RespuestaEmpleadoObj respuesta = new RespuestaEmpleadoObj();
                 respuesta.Codigo = -1;
                 respuesta.Mensaje = "Se presentó un error inesperado";

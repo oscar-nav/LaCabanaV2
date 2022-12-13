@@ -22,7 +22,6 @@ namespace LaCabana.Controllers
     public class UsuarioController : Controller
     {
         UsuarioModel instanciaUsuario = new UsuarioModel();
-        BitacoraModel instanciaBitacora = new BitacoraModel();
 
         [AllowAnonymous]
         [HttpPost]
@@ -35,8 +34,6 @@ namespace LaCabana.Controllers
             }
             catch (Exception ex)
             {
-                instanciaBitacora.Registrar_Bitacora(usuario.Correo, ex, MethodBase.GetCurrentMethod().Name);
-
                 RespuestaUsuarioObj respuesta = new RespuestaUsuarioObj();
                 respuesta.Codigo = -1;
                 respuesta.Mensaje = "Se presentó un error inesperado";
@@ -56,8 +53,6 @@ namespace LaCabana.Controllers
             }
             catch (Exception ex)
             {
-                instanciaBitacora.Registrar_Bitacora(usuario.Correo, ex, MethodBase.GetCurrentMethod().Name);
-
                 RespuestaUsuarioObj respuesta = new RespuestaUsuarioObj();
                 respuesta.Codigo = -1;
                 respuesta.Mensaje = "Se presentó un error inesperado";
@@ -78,8 +73,6 @@ namespace LaCabana.Controllers
             }
             catch (Exception ex)
             {
-                instanciaBitacora.Registrar_Bitacora(usuario.Correo, ex, MethodBase.GetCurrentMethod().Name);
-
                 RespuestaUsuarioObj respuesta = new RespuestaUsuarioObj();
                 respuesta.Codigo = -1;
                 respuesta.Mensaje = "Se presentó un error inesperado";
