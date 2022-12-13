@@ -239,7 +239,6 @@
     <Compile Include="BD\Usuario.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Controllers\HabitacionController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ReservaController.cs" />
     <Compile Include="Controllers\EmpleadoController.cs" />

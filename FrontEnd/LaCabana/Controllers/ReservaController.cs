@@ -7,7 +7,7 @@ using System.Web.Mvc;
 namespace LaCabana.Controllers
 {
     public class ReservaController : Controller
-    {
+    {   
 
         public ActionResult Index()
         {
